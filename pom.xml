@@ -9,8 +9,14 @@
   </parent>
 
   <artifactId>locale</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>hpi</packaging>
   <name>Locale plugin</name>
   <url>http://hudson.gotdns.com/wiki/display/HUDSON/Locale+Plugin</url>
+
+  <scm>
+    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/locale-1.0</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/locale-1.0</developerConnection>
+    <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins/locale/tags/locale-1.0</url>
+  </scm>
 </project>
