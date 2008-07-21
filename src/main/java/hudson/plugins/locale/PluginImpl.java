@@ -91,4 +91,8 @@ public class PluginImpl extends Plugin {
     }
 
     private static final XStream XSTREAM = new XStream2();
+
+    static {
+        XSTREAM.alias("locale",PluginImpl.class);
+    }
 }
