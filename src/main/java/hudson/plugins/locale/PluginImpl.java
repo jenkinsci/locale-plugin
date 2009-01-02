@@ -41,18 +41,12 @@ public class PluginImpl extends Plugin {
         });
     }
 
-    private void load() throws IOException {
-        XmlFile xml = getConfigXml();
-        if(xml.exists())
-            xml.unmarshal(this);
+    protected void load() throws IOException {
+        super.load();
         setSystemLocale(systemLocale);  // make the loaded value take effect
     }
 
-    private void save() throws IOException {
-        getConfigXml().write(this);
-    }
-
-    private XmlFile getConfigXml() {
+    protected XmlFile getConfigXml() {
         return new XmlFile(XSTREAM, new File(Hudson.getInstance().getRootDir(),"locale.xml"));
     }
 
