@@ -9,6 +9,7 @@ import hudson.model.Hudson;
 import hudson.util.XStream2;
 import net.sf.json.JSONObject;
 import org.jvnet.localizer.LocaleProvider;
+import org.kohsuke.stapler.StaplerRequest;
 
 import javax.servlet.ServletException;
 import java.io.File;
@@ -29,6 +30,7 @@ public class PluginImpl extends Plugin {
      */
     private transient final Locale originalLocale = Locale.getDefault();
 
+    @Override
     public void start() throws Exception {
         load();
         LocaleProvider.setProvider(new LocaleProvider() {
@@ -50,7 +52,8 @@ public class PluginImpl extends Plugin {
         return new XmlFile(XSTREAM, new File(Hudson.getInstance().getRootDir(),"locale.xml"));
     }
 
-    public void configure(JSONObject jsonObject) throws IOException, ServletException, FormException {
+    @Override
+    public void configure(StaplerRequest req, JSONObject jsonObject) throws IOException, ServletException, FormException {
         setSystemLocale(jsonObject.getString("systemLocale"));
         ignoreAcceptLanguage = jsonObject.getBoolean("ignoreAcceptLanguage");
         save();
