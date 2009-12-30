@@ -13,4 +13,10 @@
   <packaging>hpi</packaging>
   <name>Locale plugin</name>
   <url>http://wiki.hudson-ci.org/display/HUDSON/Locale+Plugin</url>
+  <developers>
+    <developer>
+      <id>kohsuke</id>
+      <name>Kohsuke Kawaguchi</name>
+    </developer>
+  </developers>
 </project>
