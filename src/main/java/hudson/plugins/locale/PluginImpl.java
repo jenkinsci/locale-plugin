@@ -6,6 +6,7 @@ import hudson.Util;
 import hudson.XmlFile;
 import hudson.model.Descriptor.FormException;
 import hudson.model.Hudson;
+import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import net.sf.json.JSONObject;
 import org.jvnet.localizer.LocaleProvider;
@@ -41,6 +42,8 @@ public class PluginImpl extends Plugin {
                 return original.get();
             }
         });
+
+        PluginServletFilter.addFilter(new LocaleFilter());
     }
 
     protected void load() throws IOException {
