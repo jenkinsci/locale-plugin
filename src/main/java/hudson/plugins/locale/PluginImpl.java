@@ -10,6 +10,7 @@ import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import net.sf.json.JSONObject;
 import org.jvnet.localizer.LocaleProvider;
+import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 
 import javax.servlet.ServletException;
@@ -37,8 +38,13 @@ public class PluginImpl extends Plugin {
         LocaleProvider.setProvider(new LocaleProvider() {
             LocaleProvider original = LocaleProvider.getProvider();
             public Locale get() {
-                if(ignoreAcceptLanguage)
-                    return Locale.getDefault();
+                if(ignoreAcceptLanguage) {
+                    final StaplerRequest currentRequest = Stapler.getCurrentRequest();
+                    if (currentRequest == null) {
+                        return Locale.getDefault();
+                    }
+                    return currentRequest.getLocale();
+                }
                 return original.get();
             }
         });
