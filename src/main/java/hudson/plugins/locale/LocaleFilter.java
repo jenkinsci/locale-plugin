@@ -1,6 +1,7 @@
 package hudson.plugins.locale;
 
-import hudson.Plugin;
+import static org.apache.commons.lang.ObjectUtils.defaultIfNull;
+import hudson.model.User;
 import jenkins.model.Jenkins;
 
 import javax.servlet.Filter;
@@ -8,10 +9,10 @@ import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
-import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
 import java.io.IOException;
 import java.util.Locale;
 
@@ -32,7 +33,12 @@ public class LocaleFilter implements Filter {
                     @Override
                     public Locale getLocale() {
                         // Force locale to configured default, ignore request' Accept-Language header
-                        return Locale.getDefault();
+                        Locale userLocale = Locale.getDefault();
+                        final User currentUser = User.current();
+                        if (currentUser != null) {
+                            userLocale = (Locale) defaultIfNull(currentUser.getProperty(UserLocaleProperty.class).getLocale(), userLocale);
+                        }
+                        return userLocale;
                     }
                 };
         }
