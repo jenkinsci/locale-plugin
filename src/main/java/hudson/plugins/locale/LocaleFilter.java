@@ -26,8 +26,8 @@ public class LocaleFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (request instanceof HttpServletRequest) {
-            PluginImpl plugin = (PluginImpl) Jenkins.getInstance().getPlugin("locale");
-            if (plugin.isIgnoreAcceptLanguage())
+            PluginImpl plugin = (PluginImpl) Jenkins.getActiveInstance().getPlugin("locale");
+            if (plugin != null && plugin.isIgnoreAcceptLanguage())
                 request = new HttpServletRequestWrapper((HttpServletRequest)request) {
                     @Override
                     public Locale getLocale() {
