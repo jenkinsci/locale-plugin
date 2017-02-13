@@ -10,6 +10,8 @@ import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import net.sf.json.JSONObject;
 import org.jvnet.localizer.LocaleProvider;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest;
 
 import javax.servlet.ServletException;
@@ -53,6 +55,14 @@ public class PluginImpl extends Plugin {
 
     protected XmlFile getConfigXml() {
         return new XmlFile(XSTREAM, new File(Hudson.getInstance().getRootDir(),"locale.xml"));
+    }
+
+    public String getDescription() {
+        return Messages.Description();
+    }
+
+    public String getDefaultLanguage() {
+        return Messages.Default_Language();
     }
 
     @Override

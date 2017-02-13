@@ -1,0 +1,8 @@
+target
+work
+/.settings
+/.classpath
+/.project
+*.iml
+.idea/
+.java-version
