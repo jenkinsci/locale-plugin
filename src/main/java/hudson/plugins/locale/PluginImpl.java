@@ -32,13 +32,15 @@ public class PluginImpl extends Plugin
     private transient final Locale originalLocale = Locale.getDefault();
 
     @Override
-    public void start() throws Exception
+    public void start() 
+            throws Exception
     {
         load();
         LocaleProvider.setProvider(new LocaleProvider()
         {
             LocaleProvider original = LocaleProvider.getProvider();
 
+            @Override
             public Locale get()
             {
                 if (ignoreAcceptLanguage)
@@ -53,7 +55,8 @@ public class PluginImpl extends Plugin
     }
 
     @Override
-    protected void load() throws IOException
+    protected void load() 
+            throws IOException
     {
         super.load();
         setSystemLocale(systemLocale);  // make the loaded value take effect
@@ -66,7 +69,8 @@ public class PluginImpl extends Plugin
     }
 
     @Override
-    public void configure(StaplerRequest req, JSONObject jsonObject) throws IOException, ServletException, FormException
+    public void configure(StaplerRequest req, JSONObject jsonObject) 
+            throws IOException, ServletException, FormException
     {
         setSystemLocale(jsonObject.getString("systemLocale"));
         ignoreAcceptLanguage = jsonObject.getBoolean("ignoreAcceptLanguage");
