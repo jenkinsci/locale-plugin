@@ -25,11 +25,7 @@
         <developer>
             <id>kohsuke</id>
             <name>Kohsuke Kawaguchi</name>
-        </developer>
-        <developer>
-            <id>bergh</id>
-            <name>Jonathan Bergh</name>
-        </developer>        
+        </developer>      
     </developers>
 
     <repositories>
