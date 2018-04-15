@@ -8,8 +8,11 @@ import hudson.model.Descriptor.FormException;
 import hudson.model.Hudson;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.jvnet.localizer.LocaleProvider;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest;
 
 import javax.servlet.ServletException;
@@ -52,7 +55,15 @@ public class PluginImpl extends Plugin {
     }
 
     protected XmlFile getConfigXml() {
-        return new XmlFile(XSTREAM, new File(Hudson.getInstance().getRootDir(),"locale.xml"));
+        return new XmlFile(XSTREAM, new File(Jenkins.getActiveInstance().getRootDir(),"locale.xml"));
+    }
+
+    public String getDescription() {
+        return Messages.description();
+    }
+
+    public String getDefaultLanguage() {
+        return Messages.default_Language();
     }
 
     @Override
