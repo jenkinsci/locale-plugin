@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
+import jenkins.model.Jenkins;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -58,7 +59,7 @@ public class PluginImpl extends Plugin {
 
     @Override
     protected XmlFile getConfigXml() {
-        return new XmlFile(XSTREAM, new File(Hudson.getInstance().getRootDir(), "locale.xml"));
+        return new XmlFile(XSTREAM, new File(Jenkins.getActiveInstance().getRootDir(), "locale.xml"));
     }
 
     @Override
