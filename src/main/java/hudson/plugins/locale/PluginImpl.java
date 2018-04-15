@@ -20,8 +20,7 @@ import java.util.Locale;
 /**
  * @author Kohsuke Kawaguchi
  */
-public class PluginImpl extends Plugin
-{
+public class PluginImpl extends Plugin {
 
     private String systemLocale;
     private boolean ignoreAcceptLanguage;
@@ -32,19 +31,15 @@ public class PluginImpl extends Plugin
     private transient final Locale originalLocale = Locale.getDefault();
 
     @Override
-    public void start() 
-            throws Exception
-    {
+    public void start()
+            throws Exception {
         load();
-        LocaleProvider.setProvider(new LocaleProvider()
-        {
+        LocaleProvider.setProvider(new LocaleProvider() {
             LocaleProvider original = LocaleProvider.getProvider();
 
             @Override
-            public Locale get()
-            {
-                if (ignoreAcceptLanguage)
-                {
+            public Locale get() {
+                if (ignoreAcceptLanguage) {
                     return Locale.getDefault();
                 }
                 return original.get();
@@ -55,40 +50,35 @@ public class PluginImpl extends Plugin
     }
 
     @Override
-    protected void load() 
-            throws IOException
-    {
+    protected void load()
+            throws IOException {
         super.load();
         setSystemLocale(systemLocale);  // make the loaded value take effect
     }
 
     @Override
-    protected XmlFile getConfigXml()
-    {
+    protected XmlFile getConfigXml() {
         return new XmlFile(XSTREAM, new File(Hudson.getInstance().getRootDir(), "locale.xml"));
     }
 
     @Override
-    public void configure(StaplerRequest req, JSONObject jsonObject) 
-            throws IOException, ServletException, FormException
-    {
+    public void configure(StaplerRequest req, JSONObject jsonObject)
+            throws IOException, ServletException, FormException {
         setSystemLocale(jsonObject.getString("systemLocale"));
         ignoreAcceptLanguage = jsonObject.getBoolean("ignoreAcceptLanguage");
         save();
     }
 
-    public boolean isIgnoreAcceptLanguage()
-    {
+    public boolean isIgnoreAcceptLanguage() {
         return ignoreAcceptLanguage;
     }
 
-    public String getSystemLocale()
-    {
+    public String getSystemLocale() {
         return systemLocale;
     }
 
-    public void setSystemLocale(String systemLocale) throws IOException
-    {
+    public void setSystemLocale(String systemLocale)
+            throws IOException {
         systemLocale = Util.fixEmptyAndTrim(systemLocale);
         Locale.setDefault(systemLocale == null ? originalLocale : parse(systemLocale));
         this.systemLocale = systemLocale;
@@ -96,12 +86,13 @@ public class PluginImpl extends Plugin
 
     /**
      * Parses a string like "ja_JP" into a {@link Locale} object.
+     *
+     * @param s the locale string using underscores as delimiters
+     * @return the Locale object
      */
-    public static Locale parse(String s)
-    {
+    public static Locale parse(String s) {
         String[] tokens = s.trim().split("_");
-        switch (tokens.length)
-        {
+        switch (tokens.length) {
             case 1:
                 return new Locale(tokens[0]);
             case 2:
@@ -115,8 +106,7 @@ public class PluginImpl extends Plugin
 
     private static final XStream XSTREAM = new XStream2();
 
-    static
-    {
+    static {
         XSTREAM.alias("locale", PluginImpl.class);
     }
 }

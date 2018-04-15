@@ -16,29 +16,24 @@ import java.util.Locale;
 /**
  * @author <a href="mailto:nicolas.deloof@gmail.com">Nicolas De Loof</a>
  */
-public class LocaleFilter implements Filter
-{
+public class LocaleFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) 
-            throws ServletException
-    {
+    public void init(FilterConfig filterConfig)
+            throws ServletException {
+        
+        // nop
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException
-    {
-        if (request instanceof HttpServletRequest)
-        {
+            throws IOException, ServletException {
+        if (request instanceof HttpServletRequest) {
             PluginImpl plugin = (PluginImpl) Jenkins.getInstance().getPlugin("locale");
-            if (plugin.isIgnoreAcceptLanguage())
-            {
-                request = new HttpServletRequestWrapper((HttpServletRequest) request)
-                {
+            if (plugin.isIgnoreAcceptLanguage()) {
+                request = new HttpServletRequestWrapper((HttpServletRequest) request) {
                     @Override
-                    public Locale getLocale()
-                    {
+                    public Locale getLocale() {
                         // Force locale to configured default, ignore request' Accept-Language header
                         return Locale.getDefault();
                     }
@@ -49,7 +44,8 @@ public class LocaleFilter implements Filter
     }
 
     @Override
-    public void destroy()
-    {
+    public void destroy() {
+        
+        // nop
     }
 }
