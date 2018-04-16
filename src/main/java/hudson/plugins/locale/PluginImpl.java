@@ -5,7 +5,6 @@ import hudson.Plugin;
 import hudson.Util;
 import hudson.XmlFile;
 import hudson.model.Descriptor.FormException;
-import hudson.model.Hudson;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import net.sf.json.JSONObject;
@@ -16,6 +15,7 @@ import javax.servlet.ServletException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
+import jenkins.model.Jenkins;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -23,7 +23,6 @@ import java.util.Locale;
 public class PluginImpl extends Plugin {
 
     private String systemLocale;
-
     private boolean ignoreAcceptLanguage;
 
     /**
@@ -32,13 +31,17 @@ public class PluginImpl extends Plugin {
     private transient final Locale originalLocale = Locale.getDefault();
 
     @Override
-    public void start() throws Exception {
+    public void start()
+            throws Exception {
         load();
         LocaleProvider.setProvider(new LocaleProvider() {
             LocaleProvider original = LocaleProvider.getProvider();
+
+            @Override
             public Locale get() {
-                if(ignoreAcceptLanguage)
+                if (ignoreAcceptLanguage) {
                     return Locale.getDefault();
+                }
                 return original.get();
             }
         });
@@ -46,17 +49,21 @@ public class PluginImpl extends Plugin {
         PluginServletFilter.addFilter(new LocaleFilter());
     }
 
-    protected void load() throws IOException {
+    @Override
+    protected void load()
+            throws IOException {
         super.load();
         setSystemLocale(systemLocale);  // make the loaded value take effect
     }
 
+    @Override
     protected XmlFile getConfigXml() {
-        return new XmlFile(XSTREAM, new File(Hudson.getInstance().getRootDir(),"locale.xml"));
+        return new XmlFile(XSTREAM, new File(Jenkins.getActiveInstance().getRootDir(), "locale.xml"));
     }
 
     @Override
-    public void configure(StaplerRequest req, JSONObject jsonObject) throws IOException, ServletException, FormException {
+    public void configure(StaplerRequest req, JSONObject jsonObject)
+            throws IOException, ServletException, FormException {
         setSystemLocale(jsonObject.getString("systemLocale"));
         ignoreAcceptLanguage = jsonObject.getBoolean("ignoreAcceptLanguage");
         save();
@@ -70,29 +77,36 @@ public class PluginImpl extends Plugin {
         return systemLocale;
     }
 
-    public void setSystemLocale(String systemLocale) throws IOException {
+    public void setSystemLocale(String systemLocale)
+            throws IOException {
         systemLocale = Util.fixEmptyAndTrim(systemLocale);
-        Locale.setDefault(systemLocale==null ? originalLocale : parse(systemLocale));
+        Locale.setDefault(systemLocale == null ? originalLocale : parse(systemLocale));
         this.systemLocale = systemLocale;
     }
 
     /**
      * Parses a string like "ja_JP" into a {@link Locale} object.
+     *
+     * @param s the locale string using underscores as delimiters
+     * @return the Locale object
      */
     public static Locale parse(String s) {
         String[] tokens = s.trim().split("_");
         switch (tokens.length) {
-        case 1: return new Locale(tokens[0]);
-        case 2: return new Locale(tokens[0],tokens[1]);
-        case 3: return new Locale(tokens[0],tokens[1],tokens[2]);
-        default:
-            throw new IllegalArgumentException(s+" is not a valid locale");
+            case 1:
+                return new Locale(tokens[0]);
+            case 2:
+                return new Locale(tokens[0], tokens[1]);
+            case 3:
+                return new Locale(tokens[0], tokens[1], tokens[2]);
+            default:
+                throw new IllegalArgumentException(s + " is not a valid locale");
         }
     }
 
     private static final XStream XSTREAM = new XStream2();
 
     static {
-        XSTREAM.alias("locale",PluginImpl.class);
+        XSTREAM.alias("locale", PluginImpl.class);
     }
 }
