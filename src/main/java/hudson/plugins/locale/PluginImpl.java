@@ -85,6 +85,16 @@ public class PluginImpl extends Plugin {
     }
 
     /**
+     * Sets whether the plugin should take user preferences into account.
+     * @param ignoreAcceptLanguage If {@code true},
+     *      Ignore browser preference and force this language to all users
+     * @since 1.3
+     */
+    public void setIgnoreAcceptLanguage(boolean ignoreAcceptLanguage) {
+        this.ignoreAcceptLanguage = ignoreAcceptLanguage;
+    }
+
+    /**
      * Parses a string like "ja_JP" into a {@link Locale} object.
      *
      * @param s the locale string using underscores as delimiters
