@@ -12,6 +12,7 @@ import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import jenkins.model.GlobalConfiguration;
 import net.sf.json.JSONObject;
+import org.jenkinsci.Symbol;
 import org.jvnet.localizer.LocaleProvider;
 import org.kohsuke.stapler.StaplerRequest;
 
@@ -25,6 +26,7 @@ import jenkins.model.Jenkins;
  * @author Kohsuke Kawaguchi
  */
 @Extension
+@Symbol("locale")
 public class PluginImpl extends GlobalConfiguration {
 
     private String systemLocale;
