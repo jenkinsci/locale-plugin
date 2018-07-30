@@ -1,7 +1,5 @@
 package hudson.plugins.locale;
 
-import jenkins.model.Jenkins;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -28,7 +26,7 @@ public class LocaleFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         if (request instanceof HttpServletRequest) {
-            PluginImpl plugin = (PluginImpl) Jenkins.getActiveInstance().getPlugin("locale");
+            PluginImpl plugin = PluginImpl.get() ;
             if (plugin != null && plugin.isIgnoreAcceptLanguage()) {
                 request = new HttpServletRequestWrapper((HttpServletRequest) request) {
                     @Override

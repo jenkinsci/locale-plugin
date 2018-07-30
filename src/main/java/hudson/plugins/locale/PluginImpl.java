@@ -1,12 +1,16 @@
 package hudson.plugins.locale;
 
 import com.thoughtworks.xstream.XStream;
+import hudson.Extension;
 import hudson.Plugin;
 import hudson.Util;
 import hudson.XmlFile;
+import hudson.init.InitMilestone;
+import hudson.init.Initializer;
 import hudson.model.Descriptor.FormException;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
+import jenkins.model.GlobalConfiguration;
 import net.sf.json.JSONObject;
 import org.jvnet.localizer.LocaleProvider;
 import org.kohsuke.stapler.StaplerRequest;
@@ -20,7 +24,8 @@ import jenkins.model.Jenkins;
 /**
  * @author Kohsuke Kawaguchi
  */
-public class PluginImpl extends Plugin {
+@Extension
+public class PluginImpl extends GlobalConfiguration {
 
     private String systemLocale;
     private boolean ignoreAcceptLanguage;
@@ -30,9 +35,16 @@ public class PluginImpl extends Plugin {
      */
     private transient final Locale originalLocale = Locale.getDefault();
 
-    @Override
-    public void start()
-            throws Exception {
+    public static PluginImpl get() {
+        return Jenkins.getActiveInstance().getExtensionList(PluginImpl.class).get(0);
+    }
+
+    @Initializer(after = InitMilestone.EXTENSIONS_AUGMENTED)
+    public static void init() throws Exception {
+        PluginImpl.get().start();
+    }
+
+    private void start() throws ServletException {
         load();
         LocaleProvider.setProvider(new LocaleProvider() {
             LocaleProvider original = LocaleProvider.getProvider();
@@ -50,23 +62,17 @@ public class PluginImpl extends Plugin {
     }
 
     @Override
-    protected void load()
-            throws IOException {
+    public void load() {
         super.load();
         setSystemLocale(systemLocale);  // make the loaded value take effect
     }
 
     @Override
-    protected XmlFile getConfigXml() {
-        return new XmlFile(XSTREAM, new File(Jenkins.getActiveInstance().getRootDir(), "locale.xml"));
-    }
-
-    @Override
-    public void configure(StaplerRequest req, JSONObject jsonObject)
-            throws IOException, ServletException, FormException {
-        setSystemLocale(jsonObject.getString("systemLocale"));
-        ignoreAcceptLanguage = jsonObject.getBoolean("ignoreAcceptLanguage");
+    public boolean configure(StaplerRequest req, JSONObject jsonObject)
+            throws FormException {
+        req.bindJSON(this, jsonObject);
         save();
+        return false;
     }
 
     public boolean isIgnoreAcceptLanguage() {
@@ -77,8 +83,7 @@ public class PluginImpl extends Plugin {
         return systemLocale;
     }
 
-    public void setSystemLocale(String systemLocale)
-            throws IOException {
+    public void setSystemLocale(String systemLocale) {
         systemLocale = Util.fixEmptyAndTrim(systemLocale);
         Locale.setDefault(systemLocale == null ? originalLocale : parse(systemLocale));
         this.systemLocale = systemLocale;
