@@ -41,6 +41,11 @@ public class PluginImpl extends GlobalConfiguration {
         return Jenkins.getActiveInstance().getExtensionList(PluginImpl.class).get(0);
     }
 
+    @Override
+    protected XmlFile getConfigFile() {
+        return new XmlFile(new File(Jenkins.getInstance().getRootDir(),"locale.xml")); // for backward compatibility
+    }
+
     @Initializer(after = InitMilestone.EXTENSIONS_AUGMENTED)
     public static void init() throws Exception {
         PluginImpl.get().start();
