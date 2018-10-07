@@ -11,7 +11,6 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests data loading from Locale Plugin 1.3.
  * @author Oleg Nenashev
- * @since TODO
  */
 public class MigrationTest {
 
