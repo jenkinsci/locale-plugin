@@ -2,15 +2,14 @@ package hudson.plugins.locale;
 
 import com.thoughtworks.xstream.XStream;
 import hudson.Extension;
-import hudson.Plugin;
 import hudson.Util;
 import hudson.XmlFile;
 import hudson.init.InitMilestone;
 import hudson.init.Initializer;
-import hudson.model.Descriptor.FormException;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import jenkins.model.GlobalConfiguration;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
 import org.jvnet.localizer.LocaleProvider;
@@ -18,9 +17,7 @@ import org.kohsuke.stapler.StaplerRequest;
 
 import javax.servlet.ServletException;
 import java.io.File;
-import java.io.IOException;
 import java.util.Locale;
-import jenkins.model.Jenkins;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -41,9 +38,13 @@ public class PluginImpl extends GlobalConfiguration {
         return Jenkins.getActiveInstance().getExtensionList(PluginImpl.class).get(0);
     }
 
+    public PluginImpl() {
+        load();
+    }
+
     @Override
     protected XmlFile getConfigFile() {
-        return new XmlFile(new File(Jenkins.getInstance().getRootDir(),"locale.xml")); // for backward compatibility
+        return new XmlFile(XSTREAM, new File(Jenkins.getInstance().getRootDir(),"locale.xml")); // for backward compatibility
     }
 
     @Initializer(after = InitMilestone.EXTENSIONS_AUGMENTED)
