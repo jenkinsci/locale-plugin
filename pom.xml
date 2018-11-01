@@ -17,7 +17,7 @@
 
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>locale</artifactId>
-    <version>1.4</version>
+    <version>1.5-SNAPSHOT</version>
     <packaging>hpi</packaging>
     
     <developers>
@@ -56,7 +56,7 @@
         <connection>scm:git:ssh://github.com/jenkinsci/locale-plugin.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/locale-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/locale-plugin</url>
-      <tag>locale-1.4</tag>
+      <tag>HEAD</tag>
   </scm>
                 
 </project>  
