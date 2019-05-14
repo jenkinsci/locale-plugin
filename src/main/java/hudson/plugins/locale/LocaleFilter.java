@@ -12,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -53,6 +54,7 @@ public class LocaleFilter implements Filter {
                         return locale;
                     }
                 };
+                ((HttpServletResponse)response).addHeader("X-Jenkins-Language", locale.toString());
             }
         }
 
