@@ -8,5 +8,9 @@
             <f:checkbox name="ignoreAcceptLanguage" checked="${it.ignoreAcceptLanguage}" />
             <label class="attach-previous">${%description}</label>
         </f:nested>
+        <f:nested>
+            <f:checkbox name="userPrefer" checked="${it.userPrefer}" />
+            <label class="attach-previous">${%userPreferDescription}</label>
+        </f:nested>
     </f:section>
 </j:jelly>

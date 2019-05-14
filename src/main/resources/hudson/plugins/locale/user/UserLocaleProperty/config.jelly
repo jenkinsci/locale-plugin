@@ -1,0 +1,6 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:f="/lib/form">
+  <f:entry title="${%Language}">
+    <f:textbox field="userLocale" />
+  </f:entry>
+</j:jelly>

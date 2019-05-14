@@ -1,5 +1,7 @@
 package hudson.plugins.locale;
 
+import hudson.model.User;
+import hudson.plugins.locale.user.UserLocaleProperty;
 import jenkins.model.Jenkins;
 
 import javax.servlet.Filter;
@@ -29,16 +31,31 @@ public class LocaleFilter implements Filter {
             throws IOException, ServletException {
         if (request instanceof HttpServletRequest) {
             PluginImpl plugin = (PluginImpl) Jenkins.getActiveInstance().getPlugin("locale");
-            if (plugin != null && plugin.isIgnoreAcceptLanguage()) {
+            final Locale locale;
+            String currentUserLocale = getCurrentUserLocale();
+
+            if (plugin == null) {
+                chain.doFilter(request, response);
+                return;
+            } else if (plugin.isUserPrefer() && currentUserLocale != null) {
+                locale = PluginImpl.parse(currentUserLocale);
+            } else if (plugin.isIgnoreAcceptLanguage()) {
+                locale = Locale.getDefault();
+            } else {
+                locale = null;
+            }
+
+            if(locale != null) {
                 request = new HttpServletRequestWrapper((HttpServletRequest) request) {
                     @Override
                     public Locale getLocale() {
                         // Force locale to configured default, ignore request' Accept-Language header
-                        return Locale.getDefault();
+                        return locale;
                     }
                 };
             }
         }
+
         chain.doFilter(request, response);
     }
 
@@ -46,4 +63,14 @@ public class LocaleFilter implements Filter {
     public void destroy() {
         // nop
     }
+
+    private String getCurrentUserLocale() {
+        User user = User.current();
+        if(user != null) {
+            UserLocaleProperty userLocaleProperty = user.getProperty(UserLocaleProperty.class);
+            return userLocaleProperty.getUserLocale();
+        }
+        return null;
+    }
+
 }
