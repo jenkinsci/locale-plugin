@@ -70,6 +70,9 @@ public class LocaleFilter implements Filter {
         User user = User.current();
         if(user != null) {
             UserLocaleProperty userLocaleProperty = user.getProperty(UserLocaleProperty.class);
+            if(userLocaleProperty == null) {
+                return null;
+            }
             return userLocaleProperty.getLocale();
         }
         return null;
