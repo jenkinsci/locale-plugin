@@ -11,25 +11,25 @@ import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest;
 
 public class UserLocaleProperty extends UserProperty {
-    private String userLocale;
+    private String locale;
 
-    public UserLocaleProperty(String userLocale) {
-        this.userLocale = userLocale;
+    public UserLocaleProperty(String locale) {
+        this.locale = locale;
     }
 
-    public String getUserLocale() {
-        return userLocale;
+    public String getLocale() {
+        return locale;
     }
 
     @DataBoundSetter
-    public void setUserLocale(String userLocale) {
-        this.userLocale = userLocale;
+    public void setLocale(String locale) {
+        this.locale = locale;
     }
 
     @Extension
     public static final class DescriptorImpl extends UserPropertyDescriptor {
         public String getDisplayName() {
-            return Messages.userLocale();
+            return Messages.locale();
         }
 
         public UserProperty newInstance(User user) {
@@ -38,7 +38,7 @@ public class UserLocaleProperty extends UserProperty {
 
         @Override
         public UserProperty newInstance(StaplerRequest req, JSONObject formData) throws FormException {
-            return new UserLocaleProperty(formData.optString("userLocale"));
+            return new UserLocaleProperty(formData.optString("locale"));
         }
     }
 }
