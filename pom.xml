@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
   
     <name>Locale plugin</name>
-    <url>https://wiki.jenkins.io/display/JENKINS/Locale+Plugin</url>
+    <url>https://github.com/jenkinsci/locale-plugin</url>
     
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
