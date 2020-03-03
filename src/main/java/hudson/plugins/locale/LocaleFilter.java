@@ -4,6 +4,7 @@ import hudson.model.User;
 import hudson.plugins.locale.user.UserLocaleProperty;
 import jenkins.model.Jenkins;
 
+import javax.annotation.CheckForNull;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -33,13 +34,13 @@ public class LocaleFilter implements Filter {
         if (request instanceof HttpServletRequest) {
             PluginImpl plugin = (PluginImpl) Jenkins.getActiveInstance().getPlugin("locale");
             final Locale locale;
-            String currentUserLocale = getCurrentUserLocale();
+            Locale currentUserLocale = getCurrentUserLocale();
 
             if (plugin == null) {
                 chain.doFilter(request, response);
                 return;
-            } else if (plugin.isUserPrefer() && currentUserLocale != null) {
-                locale = PluginImpl.parse(currentUserLocale);
+            } else if (plugin.isAllowUserPreferences() && currentUserLocale != null) {
+                locale = currentUserLocale;
             } else if (plugin.isIgnoreAcceptLanguage()) {
                 locale = Locale.getDefault();
             } else {
@@ -67,8 +68,7 @@ public class LocaleFilter implements Filter {
     }
 
     @CheckForNull
-    private String getCurrentUserLocale() {
-
+    private Locale getCurrentUserLocale() {
         User user = User.current();
         if(user != null) {
             UserLocaleProperty userLocaleProperty = user.getProperty(UserLocaleProperty.class);

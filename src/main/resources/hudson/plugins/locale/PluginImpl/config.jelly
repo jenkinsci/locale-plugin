@@ -9,7 +9,7 @@
             <label class="attach-previous">${%description}</label>
         </f:nested>
         <f:nested>
-            <f:checkbox name="userPrefer" checked="${it.userPrefer}" />
+            <f:checkbox name="allowUserPreferences" checked="${it.allowUserPreferences}" />
             <label class="attach-previous">${%userPreferDescription}</label>
         </f:nested>
     </f:section>

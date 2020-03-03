@@ -31,7 +31,7 @@ public class UserLocaleTest {
         // test for zh_CN user
         User userBob = User.get("bob", true, null);
         UserLocaleProperty userLocaleProperty = userBob.getProperty(UserLocaleProperty.class);
-        userLocaleProperty.setLocale("zh_CN");
+        userLocaleProperty.setLocaleCode("zh_CN");
 
         JenkinsRule.WebClient wc = j.createWebClient().login("bob");
         String language = wc.goTo("", "text/html")
@@ -41,7 +41,7 @@ public class UserLocaleTest {
         // test for en user
         User userAlice = User.get("alice", true, null);
         userLocaleProperty = userAlice.getProperty(UserLocaleProperty.class);
-        userLocaleProperty.setLocale("en");
+        userLocaleProperty.setLocaleCode("en");
 
         wc = j.createWebClient().login("alice");
         language = wc.goTo("", "text/html")

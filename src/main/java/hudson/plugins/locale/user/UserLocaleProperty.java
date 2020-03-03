@@ -1,29 +1,52 @@
 package hudson.plugins.locale.user;
 
 import hudson.Extension;
+import hudson.model.Descriptor;
 import hudson.model.User;
 import hudson.model.UserProperty;
 import hudson.model.UserPropertyDescriptor;
 import hudson.plugins.locale.Messages;
+import hudson.plugins.locale.PluginImpl;
 import net.sf.json.JSONObject;
 import org.jvnet.localizer.LocaleProvider;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest;
 
-public class UserLocaleProperty extends UserProperty {
-    private String locale;
+import java.util.Locale;
 
-    public UserLocaleProperty(String locale) {
-        this.locale = locale;
+public class UserLocaleProperty extends UserProperty {
+    private String localeCode;
+
+    private Locale locale; // for the cache purpose
+
+    @Override
+    public UserProperty reconfigure(StaplerRequest req, JSONObject form) throws Descriptor.FormException {
+        UserProperty userProperty = super.reconfigure(req, form);
+        if (userProperty instanceof UserLocaleProperty) {
+            try {
+                locale = PluginImpl.parse(((UserLocaleProperty) userProperty).getLocaleCode());
+            } catch (IllegalArgumentException e) {
+                // ignore this exception
+            }
+        }
+        return userProperty;
     }
 
-    public String getLocale() {
+    public UserLocaleProperty(String localeCode) {
+        this.localeCode = localeCode;
+    }
+
+    public Locale getLocale() {
         return locale;
     }
 
+    public String getLocaleCode() {
+        return localeCode;
+    }
+
     @DataBoundSetter
-    public void setLocale(String locale) {
-        this.locale = locale;
+    public void setLocaleCode(String localeCode) {
+        this.localeCode = localeCode;
     }
 
     @Extension

@@ -24,7 +24,7 @@ public class PluginImpl extends Plugin {
 
     private String systemLocale;
     private boolean ignoreAcceptLanguage;
-    private boolean userPrefer;
+    private boolean allowUserPreferences;
 
     /**
      * The value of {@link Locale#getDefault()} before we replace it.
@@ -67,7 +67,7 @@ public class PluginImpl extends Plugin {
             throws IOException, ServletException, FormException {
         setSystemLocale(jsonObject.getString("systemLocale"));
         ignoreAcceptLanguage = jsonObject.getBoolean("ignoreAcceptLanguage");
-        userPrefer = jsonObject.getBoolean("userPrefer");
+        allowUserPreferences = jsonObject.getBoolean("allowUserPreferences");
         save();
     }
 
@@ -76,7 +76,7 @@ public class PluginImpl extends Plugin {
     }
 
     public boolean isAllowUserPreferences() {
-        return userPrefer;
+        return allowUserPreferences;
     }
 
     public String getSystemLocale() {
@@ -100,8 +100,8 @@ public class PluginImpl extends Plugin {
         this.ignoreAcceptLanguage = ignoreAcceptLanguage;
     }
 
-    public void setUserPrefer(boolean userPrefer) {
-        this.userPrefer = userPrefer;
+    public void setAllowUserPreferences(boolean allowUserPreferences) {
+        this.allowUserPreferences = allowUserPreferences;
     }
 
     /**

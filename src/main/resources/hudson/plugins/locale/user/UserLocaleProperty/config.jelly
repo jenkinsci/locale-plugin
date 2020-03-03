@@ -1,6 +1,6 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
   <f:entry title="${%Language}">
-    <f:textbox field="locale" />
+    <f:textbox field="localeCode" />
   </f:entry>
 </j:jelly>
