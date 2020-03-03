@@ -75,7 +75,7 @@ public class PluginImpl extends Plugin {
         return ignoreAcceptLanguage;
     }
 
-    public boolean isUserPrefer() {
+    public boolean isAllowUserPreferences() {
         return userPrefer;
     }
 
