@@ -66,7 +66,9 @@ public class LocaleFilter implements Filter {
         // nop
     }
 
+    @CheckForNull
     private String getCurrentUserLocale() {
+
         User user = User.current();
         if(user != null) {
             UserLocaleProperty userLocaleProperty = user.getProperty(UserLocaleProperty.class);
