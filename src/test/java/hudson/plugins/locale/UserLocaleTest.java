@@ -26,7 +26,7 @@ public class UserLocaleTest {
         j.jenkins.setAuthorizationStrategy(authorizationStrategy);
 
         PluginImpl plugin = (PluginImpl) j.jenkins.getPlugin("locale");
-        plugin.setUserPrefer(true);
+        plugin.setAllowUserPreferences(true);
 
         // test for zh_CN user
         User userBob = User.get("bob", true, null);
