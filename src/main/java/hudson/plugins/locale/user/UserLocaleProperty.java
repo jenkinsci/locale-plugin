@@ -1,7 +1,6 @@
 package hudson.plugins.locale.user;
 
 import hudson.Extension;
-import hudson.model.Descriptor;
 import hudson.model.User;
 import hudson.model.UserProperty;
 import hudson.model.UserPropertyDescriptor;
@@ -19,19 +18,6 @@ public class UserLocaleProperty extends UserProperty {
 
     private Locale locale; // for the cache purpose
 
-    @Override
-    public UserProperty reconfigure(StaplerRequest req, JSONObject form) throws Descriptor.FormException {
-        UserProperty userProperty = super.reconfigure(req, form);
-        if (userProperty instanceof UserLocaleProperty) {
-            try {
-                locale = PluginImpl.parse(((UserLocaleProperty) userProperty).getLocaleCode());
-            } catch (IllegalArgumentException e) {
-                // ignore this exception
-            }
-        }
-        return userProperty;
-    }
-
     public UserLocaleProperty(String localeCode) {
         this.localeCode = localeCode;
     }
@@ -46,6 +32,11 @@ public class UserLocaleProperty extends UserProperty {
 
     @DataBoundSetter
     public void setLocaleCode(String localeCode) {
+        try {
+            locale = PluginImpl.parse(localeCode);
+        } catch (IllegalArgumentException e) {
+            // ignore this exception
+        }
         this.localeCode = localeCode;
     }
 
