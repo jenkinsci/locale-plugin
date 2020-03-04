@@ -1,12 +1,15 @@
 Locale Plugin for Jenkins
 =========================
 
-This plugin controls the language of Jenkins
 
-Normally, Jenkins honors the browser's language preference
-if a translation is available for the preferred language,
+[![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/locale.svg)](https://plugins.jenkins.io/locale)
+[![GitHub release](https://img.shields.io/github/release/jenkinsci/locale-plugin.svg?label=changelog)](https://github.com/jenkinsci/locale-plugin/releases/latest)
+[![Jenkins Plugin Installs](https://img.shields.io/jenkins/plugin/i/locale.svg?color=blue)](https://plugins.jenkins.io/locale)
+
+This plugin controls the language of Jenkins.
+
+Normally, Jenkins honors the browser's language preference if a translation is available for the preferred language,
 and uses the system default locale for messages during a build.
-
 This plugin allows you to:
 
 * override the system default locale to the language of your choice
@@ -30,3 +33,8 @@ you can check the "Ignore browser preference and force this language to all user
 
 If you want to have a different language setting, please enter your user setting page,
 than 
+
+### Changelog
+
+* See [GitHub releases](https://github.com/jenkinsci/locale-plugin/releases) for new releases
+* For versions 1.4 and older, see the [changelog archive](docs/CHANGELOG.old.md)
