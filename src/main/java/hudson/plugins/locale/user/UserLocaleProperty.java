@@ -7,6 +7,7 @@ import hudson.model.UserPropertyDescriptor;
 import hudson.plugins.locale.Messages;
 import hudson.plugins.locale.PluginImpl;
 import net.sf.json.JSONObject;
+import org.jenkinsci.Symbol;
 import org.jvnet.localizer.LocaleProvider;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest;
@@ -41,6 +42,7 @@ public class UserLocaleProperty extends UserProperty {
     }
 
     @Extension
+    @Symbol("userLocale")
     public static final class DescriptorImpl extends UserPropertyDescriptor {
         public String getDisplayName() {
             return Messages.locale();
