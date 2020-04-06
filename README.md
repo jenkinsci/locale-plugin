@@ -31,7 +31,8 @@ you're using have been translated into the specified language).
 To additionally force this language on all users, overriding their browser language,
 you can check the "Ignore browser preference and force this language to all users" option.
 
-If you want to have a different language setting, please enter your user setting page,
+If you want to have a different language setting for your user, please configure a custom locale in your profile settings page.
+This feature needs to be firstly enabled by the Jenkins instance admins in global settings.
 
 ### Changelog
 
