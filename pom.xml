@@ -3,7 +3,7 @@
   
     <name>Locale plugin</name>
     <url>https://github.com/jenkinsci/locale-plugin</url>
-    
+
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
@@ -57,7 +57,15 @@
         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/locale-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/locale-plugin</url>
       <tag>HEAD</tag>
-  </scm>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jenkins-ci</groupId>
+            <artifactId>symbol-annotation</artifactId>
+            <version>1.1</version>
+        </dependency>
+    </dependencies>
                 
 </project>  
   
