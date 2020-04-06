@@ -32,7 +32,6 @@ To additionally force this language on all users, overriding their browser langu
 you can check the "Ignore browser preference and force this language to all users" option.
 
 If you want to have a different language setting, please enter your user setting page,
-than 
 
 ### Changelog
 
