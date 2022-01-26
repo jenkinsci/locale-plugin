@@ -4,8 +4,8 @@
         <f:entry title="${%Default Language}" help="/plugin/locale/help/default-language.html">
             <f:textbox name="systemLocale" value="${it.systemLocale}" />
         </f:entry>
-        <f:nested>
+        <f:entry>
             <f:checkbox name="ignoreAcceptLanguage" checked="${it.ignoreAcceptLanguage}" title="${%description}" />
-        </f:nested>
+        </f:entry>
     </f:section>
 </j:jelly>
