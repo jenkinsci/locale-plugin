@@ -5,8 +5,7 @@
             <f:textbox name="systemLocale" value="${it.systemLocale}" />
         </f:entry>
         <f:nested>
-            <f:checkbox name="ignoreAcceptLanguage" checked="${it.ignoreAcceptLanguage}" />
-            <label class="attach-previous">${%description}</label>
+            <f:checkbox name="ignoreAcceptLanguage" checked="${it.ignoreAcceptLanguage}" title="${%description}" />
         </f:nested>
     </f:section>
 </j:jelly>
