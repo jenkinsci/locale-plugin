@@ -20,7 +20,7 @@ public class MigrationTest {
     @LocalData
     @Test
     public void dataMigration_13() {
-        PluginImpl plugin = (PluginImpl) Jenkins.getActiveInstance().getPlugin("locale");
+        PluginImpl plugin = Jenkins.get().getExtensionList(PluginImpl.class).get(0);
         assertEquals("en-US", plugin.getSystemLocale());
         assertEquals(true, plugin.isIgnoreAcceptLanguage());
     }

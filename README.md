@@ -30,6 +30,15 @@ you're using have been translated into the specified language).
 To additionally force this language on all users, overriding their browser language,
 you can check the "Ignore browser preference and force this language to all users" option.
 
+Since version 1.5 JCasC is supported
+
+```
+unclassified:
+  locale:
+    systemLocale: en
+    ignoreAcceptLanguage: true
+```
+
 ### Changelog
 
 * See [GitHub releases](https://github.com/jenkinsci/locale-plugin/releases) for new releases
