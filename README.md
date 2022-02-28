@@ -30,7 +30,7 @@ you're using have been translated into the specified language).
 To additionally force this language on all users, overriding their browser language,
 you can check the "Ignore browser preference and force this language to all users" option.
 
-Since version 1.5 JCasC is supported
+JCasC is supported on all version after 1.4
 
 ```
 unclassified:

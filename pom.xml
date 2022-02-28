@@ -12,6 +12,8 @@
     </parent>
 
     <properties>
+        <changelist>999999-SNAPSHOT</changelist>
+        <gitHubRepo>jenkinsci/locale-plugin</gitHubRepo>
         <jenkins.version>2.289.3</jenkins.version>
         <java.level>8</java.level>
         <configuration-as-code.version>1346.ve8cfa_3473c94</configuration-as-code.version>
@@ -19,7 +21,7 @@
 
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>locale</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>${changelist}</version>
     <packaging>hpi</packaging>
     
     <developers>
@@ -30,6 +32,10 @@
         <developer>
             <id>oleg_nenashev</id>
             <name>Oleg Nenashev</name>
+        </developer>
+        <developer>
+            <id>jonesbusy</id>
+            <name>Valentin Delaye</name>
         </developer>
     </developers>
 
@@ -55,10 +61,10 @@
     </licenses>
     
     <scm>
-        <connection>scm:git:ssh://github.com/jenkinsci/locale-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/locale-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/locale-plugin</url>
-      <tag>HEAD</tag>
+        <connection>scm:git:ssh://github.com/${gitHubRepo}.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/${gitHubRepo}.git</developerConnection>
+        <url>https://github.com/${gitHubRepo}</url>
+      <tag>${scmTag}</tag>
   </scm>
 
     <dependencyManagement>
