@@ -16,7 +16,7 @@
         <gitHubRepo>jenkinsci/locale-plugin</gitHubRepo>
         <jenkins.version>2.289.3</jenkins.version>
         <java.level>8</java.level>
-        <configuration-as-code.version>1346.ve8cfa_3473c94</configuration-as-code.version>
+        <configuration-as-code.version>1429.v09b_044a_c93de</configuration-as-code.version>
     </properties>
 
     <groupId>io.jenkins.plugins</groupId>
