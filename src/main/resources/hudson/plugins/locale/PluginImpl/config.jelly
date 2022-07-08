@@ -5,7 +5,7 @@
             <f:textbox />
         </f:entry>
         <f:entry>
-            <f:checkbox field="ignoreAcceptLanguage" />
+            <f:checkbox field="ignoreAcceptLanguage" title="${%description}" />
         </f:entry>
     </f:section>
 </j:jelly>
