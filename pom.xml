@@ -14,7 +14,7 @@
     <properties>
         <changelist>999999-SNAPSHOT</changelist>
         <gitHubRepo>jenkinsci/locale-plugin</gitHubRepo>
-        <jenkins.version>2.346.3</jenkins.version>
+        <jenkins.version>2.361.4</jenkins.version>
         <configuration-as-code.version>1569.vb_72405b_80249</configuration-as-code.version>
     </properties>
 
@@ -51,7 +51,7 @@
             <url>https://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
-    
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -65,19 +65,17 @@
         <url>https://github.com/${gitHubRepo}</url>
       <tag>${scmTag}</tag>
   </scm>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.346.x</artifactId>
-                <version>1723.vcb_9fee52c9fc</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.jenkins.tools.bom</groupId>
+            <artifactId>bom-2.361.x</artifactId>
+            <version>1723.vcb_9fee52c9fc</version>
+            <scope>import</scope>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
         <groupId>io.jenkins</groupId>
@@ -92,6 +90,5 @@
         <scope>test</scope>
     </dependency>
   </dependencies>
-                
-</project>  
-  
+
+</project>
