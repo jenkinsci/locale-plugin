@@ -15,7 +15,7 @@
         <changelist>999999-SNAPSHOT</changelist>
         <gitHubRepo>jenkinsci/locale-plugin</gitHubRepo>
         <jenkins.version>2.375.4</jenkins.version>
-        <configuration-as-code.version>1616.v11393eccf675</configuration-as-code.version>
+        <configuration-as-code.version>1625.v27444588cc3d</configuration-as-code.version>
     </properties>
 
     <groupId>io.jenkins.plugins</groupId>
