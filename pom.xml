@@ -14,7 +14,7 @@
     <properties>
         <changelist>999999-SNAPSHOT</changelist>
         <gitHubRepo>jenkinsci/locale-plugin</gitHubRepo>
-        <jenkins.version>2.375.4</jenkins.version>
+        <jenkins.version>2.387.3</jenkins.version>
         <configuration-as-code.version>1625.v27444588cc3d</configuration-as-code.version>
     </properties>
 
@@ -69,7 +69,7 @@
     <dependencies>
         <dependency>
             <groupId>io.jenkins.tools.bom</groupId>
-            <artifactId>bom-2.375.x</artifactId>
+            <artifactId>bom-2.387.x</artifactId>
             <version>2102.v854b_fec19c92</version>
             <scope>import</scope>
             <type>pom</type>
