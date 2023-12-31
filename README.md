@@ -42,3 +42,7 @@ unclassified:
 
 * See [GitHub releases](https://github.com/jenkinsci/locale-plugin/releases) for new releases
 * For versions 1.4 and older, see the [changelog archive](docs/CHANGELOG.old.md)
+
+## License
+
+Licensed under MIT, see [LICENSE](LICENSE.md)
