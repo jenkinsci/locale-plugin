@@ -1,100 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-  
-    <name>Locale plugin</name>
-    <url>https://github.com/jenkinsci/locale-plugin</url>
-    
-    <parent>
-        <groupId>org.jenkins-ci.plugins</groupId>
-        <artifactId>plugin</artifactId>
-        <version>4.76</version>
-        <relativePath />
-    </parent>
+  <modelVersion>4.0.0</modelVersion>
 
-    <properties>
-        <changelist>999999-SNAPSHOT</changelist>
-        <gitHubRepo>jenkinsci/locale-plugin</gitHubRepo>
-        <jenkins.version>2.426.2</jenkins.version>
-        <configuration-as-code.version>1756.v2b_7eea_874392</configuration-as-code.version>
-    </properties>
+  <parent>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>4.76</version>
+    <relativePath />
+  </parent>
 
-    <groupId>io.jenkins.plugins</groupId>
-    <artifactId>locale</artifactId>
-    <version>${changelist}</version>
-    <packaging>hpi</packaging>
-    
-    <developers>
-        <developer>
-            <id>kohsuke</id>
-            <name>Kohsuke Kawaguchi</name>
-        </developer>
-        <developer>
-            <id>oleg_nenashev</id>
-            <name>Oleg Nenashev</name>
-        </developer>
-        <developer>
-            <id>jonesbusy</id>
-            <name>Valentin Delaye</name>
-        </developer>
-    </developers>
+  <groupId>io.jenkins.plugins</groupId>
+  <artifactId>locale</artifactId>
+  <version>${changelist}</version>
+  <packaging>hpi</packaging>
 
-    <repositories>
-        <repository>
-            <id>repo.jenkins-ci.org</id>
-            <url>https://repo.jenkins-ci.org/public/</url>
-        </repository>
-    </repositories>
+  <name>Locale plugin</name>
+  <url>https://github.com/jenkinsci/locale-plugin</url>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>repo.jenkins-ci.org</id>
-            <url>https://repo.jenkins-ci.org/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://opensource.org/licenses/MIT</url>
+    </license>
+  </licenses>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://opensource.org/licenses/MIT</url>
-        </license>
-    </licenses>
-    
-    <scm>
-        <connection>scm:git:ssh://github.com/${gitHubRepo}.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/${gitHubRepo}.git</developerConnection>
-        <url>https://github.com/${gitHubRepo}</url>
-      <tag>${scmTag}</tag>
+  <developers>
+    <developer>
+      <id>kohsuke</id>
+      <name>Kohsuke Kawaguchi</name>
+    </developer>
+    <developer>
+      <id>oleg_nenashev</id>
+      <name>Oleg Nenashev</name>
+    </developer>
+    <developer>
+      <id>jonesbusy</id>
+      <name>Valentin Delaye</name>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:ssh://github.com/${gitHubRepo}.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/${gitHubRepo}.git</developerConnection>
+    <tag>${scmTag}</tag>
+    <url>https://github.com/${gitHubRepo}</url>
   </scm>
+
+  <properties>
+    <changelist>999999-SNAPSHOT</changelist>
+    <gitHubRepo>jenkinsci/locale-plugin</gitHubRepo>
+    <jenkins.version>2.426.2</jenkins.version>
+    <configuration-as-code.version>1756.v2b_7eea_874392</configuration-as-code.version>
+    <spotless.check.skip>false</spotless.check.skip>
+  </properties>
   <dependencyManagement>
     <dependencies>
-        <!-- TODO Until in BOM -->
-        <dependency>
-            <groupId>io.jenkins.plugins</groupId>
-            <artifactId>snakeyaml-api</artifactId>
-            <version>2.2-111.vc6598e30cc65</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jenkins.tools.bom</groupId>
-            <artifactId>bom-2.426.x</artifactId>
-            <version>2675.v1515e14da_7a_6</version>
-            <scope>import</scope>
-            <type>pom</type>
-        </dependency>
+      <dependency>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <artifactId>bom-2.426.x</artifactId>
+        <version>2675.v1515e14da_7a_6</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- TODO Until in BOM -->
+      <dependency>
+        <groupId>io.jenkins.plugins</groupId>
+        <artifactId>snakeyaml-api</artifactId>
+        <version>2.2-111.vc6598e30cc65</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
     <dependency>
-        <groupId>io.jenkins</groupId>
-        <artifactId>configuration-as-code</artifactId>
-        <version>${configuration-as-code.version}</version>
-        <scope>test</scope>
+      <groupId>io.jenkins</groupId>
+      <artifactId>configuration-as-code</artifactId>
+      <version>${configuration-as-code.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
-        <groupId>io.jenkins.configuration-as-code</groupId>
-        <artifactId>test-harness</artifactId>
-        <version>${configuration-as-code.version}</version>
-        <scope>test</scope>
+      <groupId>io.jenkins.configuration-as-code</groupId>
+      <artifactId>test-harness</artifactId>
+      <version>${configuration-as-code.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
 
 </project>

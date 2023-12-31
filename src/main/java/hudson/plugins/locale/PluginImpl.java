@@ -8,18 +8,15 @@ import hudson.init.InitMilestone;
 import hudson.init.Initializer;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
+import java.io.File;
+import java.util.Locale;
+import javax.servlet.ServletException;
 import jenkins.model.GlobalConfiguration;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
 import org.jvnet.localizer.LocaleProvider;
 import org.kohsuke.stapler.StaplerRequest;
-
-import javax.servlet.ServletException;
-import java.io.File;
-import java.io.IOException;
-import java.util.Locale;
-import jenkins.model.Jenkins;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -34,7 +31,7 @@ public class PluginImpl extends GlobalConfiguration {
     /**
      * The value of {@link Locale#getDefault()} before we replace it.
      */
-    private transient final Locale originalLocale = Locale.getDefault();
+    private final transient Locale originalLocale = Locale.getDefault();
 
     public static PluginImpl get() {
         return Jenkins.get().getExtensionList(PluginImpl.class).get(0);
@@ -74,9 +71,8 @@ public class PluginImpl extends GlobalConfiguration {
     @Override
     public void load() {
         super.load();
-        setSystemLocale(systemLocale);  // make the loaded value take effect
+        setSystemLocale(systemLocale); // make the loaded value take effect
     }
-
 
     @Override
     public boolean configure(StaplerRequest req, JSONObject jsonObject) throws FormException {

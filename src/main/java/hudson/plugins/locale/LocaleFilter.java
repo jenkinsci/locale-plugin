@@ -1,7 +1,7 @@
 package hudson.plugins.locale;
 
-import jenkins.model.Jenkins;
-
+import java.io.IOException;
+import java.util.Locale;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -10,8 +10,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.IOException;
-import java.util.Locale;
 
 /**
  * @author <a href="mailto:nicolas.deloof@gmail.com">Nicolas De Loof</a>
@@ -19,8 +17,7 @@ import java.util.Locale;
 public class LocaleFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig)
-            throws ServletException {
+    public void init(FilterConfig filterConfig) throws ServletException {
         // nop
     }
 
