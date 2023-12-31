@@ -1,16 +1,17 @@
 package hudson.plugins.locale;
 
-import jenkins.model.Jenkins;
+import static org.junit.Assert.assertEquals;
+
 import io.jenkins.plugins.casc.misc.ConfiguredWithCode;
 import io.jenkins.plugins.casc.misc.JenkinsConfiguredWithCodeRule;
+import jenkins.model.Jenkins;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
 public class ConfigurationAsCodeTest {
 
-    @Rule public JenkinsConfiguredWithCodeRule r = new JenkinsConfiguredWithCodeRule();
+    @Rule
+    public JenkinsConfiguredWithCodeRule r = new JenkinsConfiguredWithCodeRule();
 
     @Test
     @ConfiguredWithCode("configuration-as-code.yml")

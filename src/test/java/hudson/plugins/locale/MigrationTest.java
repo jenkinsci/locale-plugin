@@ -1,12 +1,12 @@
 package hudson.plugins.locale;
 
+import static org.junit.Assert.assertEquals;
+
 import jenkins.model.Jenkins;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.recipes.LocalData;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Tests data loading from Locale Plugin 1.3.
