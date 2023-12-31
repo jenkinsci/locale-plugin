@@ -1,10 +1,9 @@
-Locale Plugin for Jenkins
-=========================
+# Locale Plugin for Jenkins
 
-
+[![Build Status](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/badge/icon)](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/)
 [![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/locale.svg)](https://plugins.jenkins.io/locale)
 [![GitHub release](https://img.shields.io/github/release/jenkinsci/locale-plugin.svg?label=changelog)](https://github.com/jenkinsci/locale-plugin/releases/latest)
-[![Jenkins Plugin Installs](https://img.shields.io/jenkins/plugin/i/locale.svg?color=blue)](https://plugins.jenkins.io/locale)
+[![GitHub license](https://img.shields.io/github/license/jenkinsci/locale-plugin)](https://github.com/jenkinsci/locale-plugin/blob/main/LICENSE.md)
 
 This plugin controls the language of Jenkins.
 
