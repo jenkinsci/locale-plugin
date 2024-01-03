@@ -1,6 +1,8 @@
 # Locale Plugin for Jenkins
 
 [![Build Status](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/badge/icon)](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/)
+[![Coverage](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/badge/icon?status=${instructionCoverage}&subject=coverage&color=${colorInstructionCoverage})](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main)
+[![LOC](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/badge/icon?job=test&status=${lineOfCode}&subject=line%20of%20code&color=blue)](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main)
 [![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/locale.svg)](https://plugins.jenkins.io/locale)
 [![GitHub release](https://img.shields.io/github/release/jenkinsci/locale-plugin.svg?label=changelog)](https://github.com/jenkinsci/locale-plugin/releases/latest)
 [![GitHub license](https://img.shields.io/github/license/jenkinsci/locale-plugin)](https://github.com/jenkinsci/locale-plugin/blob/main/LICENSE.md)
