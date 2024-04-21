@@ -24,24 +24,9 @@
     </license>
   </licenses>
 
-  <developers>
-    <developer>
-      <id>kohsuke</id>
-      <name>Kohsuke Kawaguchi</name>
-    </developer>
-    <developer>
-      <id>oleg_nenashev</id>
-      <name>Oleg Nenashev</name>
-    </developer>
-    <developer>
-      <id>jonesbusy</id>
-      <name>Valentin Delaye</name>
-    </developer>
-  </developers>
-
   <scm>
-    <connection>scm:git:ssh://github.com/${gitHubRepo}.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/${gitHubRepo}.git</developerConnection>
+    <connection>scm:git:https://github.com/${gitHubRepo}</connection>
+    <developerConnection>scm:git:https://github.com/${gitHubRepo}</developerConnection>
     <tag>${scmTag}</tag>
     <url>https://github.com/${gitHubRepo}</url>
   </scm>
@@ -62,11 +47,9 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <!-- TODO Until in BOM -->
       <dependency>
         <groupId>io.jenkins.plugins</groupId>
         <artifactId>snakeyaml-api</artifactId>
-        <version>2.2-111.vc6598e30cc65</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
