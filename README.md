@@ -31,10 +31,10 @@ you're using have been translated into the specified language).
 To additionally force this language on all users, overriding their browser language,
 you can check the "Ignore browser preference and force this language to all users" option.
 
-JCasC is supported on all version after 1.4
+JCasC configuration example:
 
 ```
-unclassified:
+appearance:
   locale:
     systemLocale: en
     ignoreAcceptLanguage: true
