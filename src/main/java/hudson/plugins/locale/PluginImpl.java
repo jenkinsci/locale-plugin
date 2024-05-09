@@ -1,6 +1,7 @@
 package hudson.plugins.locale;
 
 import com.thoughtworks.xstream.XStream;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.Util;
 import hudson.XmlFile;
@@ -11,7 +12,9 @@ import hudson.util.XStream2;
 import java.io.File;
 import java.util.Locale;
 import javax.servlet.ServletException;
+import jenkins.appearance.AppearanceCategory;
 import jenkins.model.GlobalConfiguration;
+import jenkins.model.GlobalConfigurationCategory;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
@@ -123,6 +126,12 @@ public class PluginImpl extends GlobalConfiguration {
             default:
                 throw new IllegalArgumentException(s + " is not a valid locale");
         }
+    }
+
+    @NonNull
+    @Override
+    public GlobalConfigurationCategory getCategory() {
+        return GlobalConfigurationCategory.get(AppearanceCategory.class);
     }
 
     private static final XStream XSTREAM = new XStream2();
