@@ -10,6 +10,9 @@ import hudson.init.Initializer;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import javax.servlet.ServletException;
 import jenkins.appearance.AppearanceCategory;
@@ -132,6 +135,13 @@ public class PluginImpl extends GlobalConfiguration {
     @Override
     public GlobalConfigurationCategory getCategory() {
         return GlobalConfigurationCategory.get(AppearanceCategory.class);
+    }
+
+    public List<Locale> getLocales() {
+        List<Locale> locales = new ArrayList<>();
+        Locale[] availableLocales = Locale.getAvailableLocales();
+        locales.addAll(Arrays.asList(availableLocales));
+        return locales;
     }
 
     private static final XStream XSTREAM = new XStream2();
