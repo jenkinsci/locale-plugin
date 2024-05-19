@@ -2,13 +2,7 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
     <f:section>
         <f:entry title="${%Default Language}">
-            <select name="systemLocale">
-                <j:forEach var="locale" items="${instance.getLocales()}">
-                    <f:option value="${locale}" selected="${locale == instance.systemLocale}">
-                        ${locale.displayName} - ${locale}
-                    </f:option>
-                </j:forEach>
-            </select>
+            <f:select field="systemLocale" />
         </f:entry>
         <f:entry>
             <f:checkbox field="ignoreAcceptLanguage" title="${%description}" />

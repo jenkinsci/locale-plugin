@@ -7,13 +7,12 @@ import hudson.Util;
 import hudson.XmlFile;
 import hudson.init.InitMilestone;
 import hudson.init.Initializer;
+import hudson.util.ListBoxModel;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import jenkins.appearance.AppearanceCategory;
 import jenkins.model.GlobalConfiguration;
@@ -138,14 +137,26 @@ public class PluginImpl extends GlobalConfiguration {
     }
 
     /**
-     * Returns a list of available locales.
-     * @return list of locales
+     * Retrieves a ListBoxModel containing the available system locales.
+     * This method populates a ListBoxModel with the available system locales,
+     * sorted lexicographically by their string representations. Each locale's
+     * display name and string representation are added as options to the model.
+     *
+     * @return A ListBoxModel containing the available system locales.
      */
-    public List<Locale> getLocales() {
-        List<Locale> locales = new ArrayList<>();
+    public ListBoxModel doFillSystemLocaleItems() {
+        ListBoxModel items = new ListBoxModel();
         Locale[] availableLocales = Locale.getAvailableLocales();
-        locales.addAll(Arrays.asList(availableLocales));
-        return locales;
+
+        List<Locale> sortedLocales = Arrays.stream(availableLocales)
+                .sorted((locale1, locale2) -> locale1.toString().compareTo(locale2.toString()))
+                .collect(Collectors.toList());
+
+        for (Locale locale : sortedLocales) {
+            items.add(new ListBoxModel.Option(locale.getDisplayName(), locale.toString()));
+        }
+
+        return items;
     }
 
     private static final XStream XSTREAM = new XStream2();
