@@ -137,6 +137,10 @@ public class PluginImpl extends GlobalConfiguration {
         return GlobalConfigurationCategory.get(AppearanceCategory.class);
     }
 
+    /**
+     * Returns a list of available locales.
+     * @return list of locales
+     */
     public List<Locale> getLocales() {
         List<Locale> locales = new ArrayList<>();
         Locale[] availableLocales = Locale.getAvailableLocales();
