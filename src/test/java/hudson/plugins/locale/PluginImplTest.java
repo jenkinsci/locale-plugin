@@ -5,7 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.Before;
 import org.jvnet.hudson.test.JenkinsRule;
-import org.jvnet.hudson.test.recipes.LocalData;
+import hudson.util.ListBoxModel;
 
 import java.util.Locale;
 
@@ -23,14 +23,28 @@ public class PluginImplTest {
         plugin = Jenkins.get().getExtensionList(PluginImpl.class).get(0);
     }
 
-    @LocalData
     @Test
-    public void testGetLocales(){
-        // Test that getLocales() returns a non-empty list of locales
-        assertEquals(false, plugin.getLocales().isEmpty());
+    public void testDoFillSystemLocaleItems(){
+        // Invoke the method
+        ListBoxModel model = plugin.doFillSystemLocaleItems();
+
+
+        // Verify the returned ListBoxModel
+        assertEquals("The returned ListBoxModel size is not as expected", Locale.getAvailableLocales().length, model.size());
+
+        // Verify that the locales are correctly added to the ListBoxModel
+        for (Locale locale : Locale.getAvailableLocales()) {
+            boolean found = false;
+            for (int i = 0; i < model.size(); i++) {
+                if (model.get(i).name.equals(locale.getDisplayName())) {
+                    found = true;
+                    break;
+                }
+            }
+            assertEquals("The ListBoxModel does not contain the expected locale", true, found);
+        }
     }
 
-    @LocalData
     @Test
     public void testSetSystemLocale(){
         // Test setting systemLocale
@@ -39,7 +53,6 @@ public class PluginImplTest {
         assertEquals(systemLocale, plugin.getSystemLocale());
     }
 
-    @LocalData
     @Test
     public void testSetIgnoreAcceptLanguage() {
         // Test setting ignoreAcceptLanguage
@@ -48,7 +61,6 @@ public class PluginImplTest {
         assertEquals(ignoreAcceptLanguage, plugin.isIgnoreAcceptLanguage());
     }
 
-    @LocalData
     @Test
     public void testNullSystemLocale() {
         // Test setting systemLocale to null
@@ -56,7 +68,6 @@ public class PluginImplTest {
         assertEquals(Locale.getDefault().toString(), plugin.getSystemLocale());
     }
 
-    @LocalData
     @Test
     public void testEmptySystemLocale() {
         // Test setting systemLocale to empty string

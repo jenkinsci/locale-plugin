@@ -11,7 +11,9 @@ import hudson.util.ListBoxModel;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import jenkins.appearance.AppearanceCategory;
@@ -146,6 +148,10 @@ public class PluginImpl extends GlobalConfiguration {
      */
     public ListBoxModel doFillSystemLocaleItems() {
         ListBoxModel items = new ListBoxModel();
+
+        // Add an option for using browser default
+        items.add(new ListBoxModel.Option("Use Browser Default", ""));
+
         Locale[] availableLocales = Locale.getAvailableLocales();
 
         List<Locale> sortedLocales = Arrays.stream(availableLocales)
