@@ -81,7 +81,8 @@ public class PluginImpl extends GlobalConfiguration {
     public void load() {
         super.load();
         // make the loaded value take effect
-        setSystemLocale(USE_BROWSER_LOCALE);
+        if(systemLocale==null || systemLocale.isEmpty()) setSystemLocale(USE_BROWSER_LOCALE);
+        else setSystemLocale(systemLocale);
     }
 
     @Override
