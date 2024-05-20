@@ -35,7 +35,7 @@
     <changelist>999999-SNAPSHOT</changelist>
     <gitHubRepo>jenkinsci/locale-plugin</gitHubRepo>
     <jenkins.version>2.440.3</jenkins.version>
-    <configuration-as-code.version>1775.v810dc950b_514</configuration-as-code.version>
+    <configuration-as-code.version>1807.v0175eda_00a_20</configuration-as-code.version>
     <spotless.check.skip>false</spotless.check.skip>
   </properties>
   <dependencyManagement>
