@@ -106,7 +106,7 @@ public class PluginImpl extends GlobalConfiguration {
             Locale.setDefault(originalLocale);
             this.systemLocale = USE_BROWSER_LOCALE;
         } else {
-            Locale.setDefault(systemLocale == null ? originalLocale : parse(systemLocale));
+            Locale.setDefault((systemLocale == null || systemLocale.isEmpty()) ? originalLocale : parse(systemLocale));
             this.systemLocale = systemLocale;
         }
     }

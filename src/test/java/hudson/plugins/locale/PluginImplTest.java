@@ -24,26 +24,29 @@ public class PluginImplTest {
     }
 
     @Test
-    public void testDoFillSystemLocaleItems(){
+    public void testDoFillSystemLocaleItems() {
         // Invoke the method
         ListBoxModel model = plugin.doFillSystemLocaleItems();
 
+        // Verify the returned ListBoxModel size
+        assertEquals("The returned ListBoxModel size is not as expected", Locale.getAvailableLocales().length + 1, model.size());
 
-        // Verify the returned ListBoxModel
-        assertEquals("The returned ListBoxModel size is not as expected", Locale.getAvailableLocales().length, model.size());
+        // Verify that the first option is "Use Browser Locale"
+        assertEquals("The first option should be 'Use Browser Locale'", "Use Browser Locale - " + Locale.getDefault().getDisplayName() + " (" + Locale.getDefault().toString() + ")", model.get(0).name);
 
-        // Verify that the locales are correctly added to the ListBoxModel
+        // Verify that the locales are correctly added to the ListBoxModel, excluding the first option
         for (Locale locale : Locale.getAvailableLocales()) {
             boolean found = false;
-            for (int i = 0; i < model.size(); i++) {
-                if (model.get(i).name.equals(locale.getDisplayName())) {
+            for (int i = 1; i < model.size(); i++) { // Start from 1 to skip the "Use Browser Locale" option
+                if (model.get(i).name.equals(locale.getDisplayName() + " - " + locale.toString())) {
                     found = true;
                     break;
                 }
             }
-            assertEquals("The ListBoxModel does not contain the expected locale", true, found);
+            assertEquals("The ListBoxModel does not contain the expected locale: " + locale, true, found);
         }
     }
+
 
     @Test
     public void testSetSystemLocale(){
