@@ -10,6 +10,7 @@ import hudson.util.ListBoxModel;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class PluginImplTest {
 
@@ -29,7 +30,7 @@ public class PluginImplTest {
         ListBoxModel model = plugin.doFillSystemLocaleItems();
 
         // Verify the returned ListBoxModel size
-        assertEquals("The returned ListBoxModel size is not as expected", Locale.getAvailableLocales().length + 1, model.size());
+        assertEquals("The returned ListBoxModel size is not as expected", Locale.getAvailableLocales().length , model.size());
 
         // Verify that the first option is "Use Browser Locale"
         assertEquals("The first option should be 'Use Browser Locale'", "Use Browser Locale - " + Locale.getDefault().getDisplayName() + " (" + Locale.getDefault().toString() + ")", model.get(0).name);
@@ -37,7 +38,7 @@ public class PluginImplTest {
         // Verify that the locales are correctly added to the ListBoxModel, excluding the first option
         for (Locale locale : Locale.getAvailableLocales()) {
             boolean found = false;
-            for (int i = 1; i < model.size(); i++) { // Start from 1 to skip the "Use Browser Locale" option
+            for (int i = 0; i < model.size(); i++) {
                 if (model.get(i).name.equals(locale.getDisplayName() + " - " + locale.toString())) {
                     found = true;
                     break;
@@ -68,13 +69,19 @@ public class PluginImplTest {
     public void testNullSystemLocale() {
         // Test setting systemLocale to null
         plugin.setSystemLocale(null);
-        assertEquals(Locale.getDefault().toString(), plugin.getSystemLocale());
+        assertNull("System locale should be null", plugin.getSystemLocale());
     }
 
     @Test
     public void testEmptySystemLocale() {
         // Test setting systemLocale to empty string
         plugin.setSystemLocale("");
-        assertEquals(Locale.getDefault().toString(), plugin.getSystemLocale());
+        assertEquals("System locale should be empty", "", plugin.getSystemLocale());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidSystemLocale() {
+        // Test setting invalid systemLocale
+        plugin.setSystemLocale("invalid_locale");
     }
 }
