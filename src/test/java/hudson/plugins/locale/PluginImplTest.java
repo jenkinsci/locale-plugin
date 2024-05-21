@@ -7,7 +7,10 @@ import org.junit.Before;
 import org.jvnet.hudson.test.JenkinsRule;
 import hudson.util.ListBoxModel;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -24,24 +27,38 @@ public class PluginImplTest {
         plugin = Jenkins.get().getExtensionList(PluginImpl.class).get(0);
     }
 
+    // Set of allowed locales for the test
+    private static final Set<String> ALLOWED_LOCALES = new HashSet<>(Arrays.asList(
+            "bg", "ca", "cs", "da", "de", "el", "en_GB", "es", "es_AR", "et", "fi",
+            "fr", "he", "hu", "it", "ja", "ko", "lt", "lv", "nb_NO", "nl", "pl",
+            "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv_SE", "tr", "uk",
+            "zh_CN", "zh_TW"
+    ));
+
     @Test
     public void testDoFillSystemLocaleItems() {
         // Invoke the method
         ListBoxModel model = plugin.doFillSystemLocaleItems();
 
+        // Expected size of the ListBoxModel
+        int expectedSize = ALLOWED_LOCALES.size() + 1; // +1 for the "Use Browser Locale" option
+
         // Verify the returned ListBoxModel size
-        assertEquals("The returned ListBoxModel size is not as expected", Locale.getAvailableLocales().length , model.size());
+        assertEquals("The returned ListBoxModel size is not as expected", expectedSize, model.size());
 
         // Verify that the first option is "Use Browser Locale"
-        assertEquals("The first option should be 'Use Browser Locale'", "Use Browser Locale - " + Locale.getDefault().getDisplayName() + " (" + Locale.getDefault().toString() + ")", model.get(0).name);
+        String expectedFirstOption = String.format("Use Browser Locale - %s (%s)",
+                Locale.getDefault().getDisplayName(), Locale.getDefault().toString());
+        assertEquals("The first option should be 'Use Browser Locale'", expectedFirstOption, model.get(0).name);
 
-        // Verify that the locales are correctly added to the ListBoxModel, excluding the first option
-        for (Locale locale : Locale.getAvailableLocales()) {
-            if(locale==null || locale.toString().isEmpty()) continue;
+        // Verify that the allowed locales are correctly added to the ListBoxModel, excluding the first option
+        for (String localeStr : ALLOWED_LOCALES) {
+            Locale locale = Locale.forLanguageTag(localeStr.replace('_', '-'));
+            String expectedOption = String.format("%s - %s", locale.getDisplayName(), locale.toString());
 
             boolean found = false;
-            for (int i = 0; i < model.size(); i++) {
-                if (model.get(i).name.equals(locale.getDisplayName() + " - " + locale.toString())) {
+            for (int i = 1; i < model.size(); i++) { // Start from 1 to skip the "Use Browser Locale" option
+                if (model.get(i).name.equals(expectedOption)) {
                     found = true;
                     break;
                 }
