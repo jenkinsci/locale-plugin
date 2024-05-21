@@ -11,12 +11,12 @@ import hudson.util.ListBoxModel;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import java.io.File;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import jenkins.appearance.AppearanceCategory;
 import jenkins.model.GlobalConfiguration;
@@ -41,11 +41,9 @@ public class PluginImpl extends GlobalConfiguration {
 
     // Set of allowed locales
     private static final Set<String> ALLOWED_LOCALES = new HashSet<>(Arrays.asList(
-            "bg", "ca", "cs", "da", "de", "el", "en_GB", "es", "es_AR", "et", "fi",
-            "fr", "he", "hu", "it", "ja", "ko", "lt", "lv", "nb_NO", "nl", "pl",
-            "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv_SE", "tr", "uk",
-            "zh_CN", "zh_TW"
-    ));
+            "bg", "ca", "cs", "da", "de", "el", "en_GB", "es", "es_AR", "et", "fi", "fr", "he", "hu", "it", "ja", "ko",
+            "lt", "lv", "nb_NO", "nl", "pl", "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv_SE", "tr", "uk",
+            "zh_CN", "zh_TW"));
 
     /**
      * The value of {@link Locale#getDefault()} before we replace it.
@@ -91,7 +89,7 @@ public class PluginImpl extends GlobalConfiguration {
     public void load() {
         super.load();
         // make the loaded value take effect
-        if(systemLocale==null || systemLocale.isEmpty()) setSystemLocale(USE_BROWSER_LOCALE);
+        if (systemLocale == null || systemLocale.isEmpty()) setSystemLocale(USE_BROWSER_LOCALE);
         else setSystemLocale(systemLocale);
     }
 
@@ -109,7 +107,6 @@ public class PluginImpl extends GlobalConfiguration {
     public String getSystemLocale() {
         return systemLocale;
     }
-
 
     public void setSystemLocale(String systemLocale) {
         systemLocale = Util.fixEmptyAndTrim(systemLocale);
@@ -174,9 +171,8 @@ public class PluginImpl extends GlobalConfiguration {
         ListBoxModel items = new ListBoxModel();
 
         // Use originalLocale to display the "Use Browser Locale" option
-        String originalLocaleDisplay = String.format("Use Browser Locale - %s (%s)",
-                originalLocale.getDisplayName(),
-                originalLocale.toString());
+        String originalLocaleDisplay = String.format(
+                "Use Browser Locale - %s (%s)", originalLocale.getDisplayName(), originalLocale.toString());
         items.add(new ListBoxModel.Option(originalLocaleDisplay, USE_BROWSER_LOCALE));
 
         Locale[] availableLocales = Locale.getAvailableLocales();
@@ -192,8 +188,6 @@ public class PluginImpl extends GlobalConfiguration {
 
         return items;
     }
-
-
 
     private static final XStream XSTREAM = new XStream2();
 

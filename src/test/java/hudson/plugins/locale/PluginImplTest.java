@@ -1,19 +1,18 @@
 package hudson.plugins.locale;
 
-import jenkins.model.Jenkins;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.Before;
-import org.jvnet.hudson.test.JenkinsRule;
-import hudson.util.ListBoxModel;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
+import hudson.util.ListBoxModel;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import jenkins.model.Jenkins;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.jvnet.hudson.test.JenkinsRule;
 
 public class PluginImplTest {
 
@@ -23,17 +22,15 @@ public class PluginImplTest {
     private PluginImpl plugin;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         plugin = Jenkins.get().getExtensionList(PluginImpl.class).get(0);
     }
 
     // Set of allowed locales for the test
     private static final Set<String> ALLOWED_LOCALES = new HashSet<>(Arrays.asList(
-            "bg", "ca", "cs", "da", "de", "el", "en_GB", "es", "es_AR", "et", "fi",
-            "fr", "he", "hu", "it", "ja", "ko", "lt", "lv", "nb_NO", "nl", "pl",
-            "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv_SE", "tr", "uk",
-            "zh_CN", "zh_TW"
-    ));
+            "bg", "ca", "cs", "da", "de", "el", "en_GB", "es", "es_AR", "et", "fi", "fr", "he", "hu", "it", "ja", "ko",
+            "lt", "lv", "nb_NO", "nl", "pl", "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv_SE", "tr", "uk",
+            "zh_CN", "zh_TW"));
 
     @Test
     public void testDoFillSystemLocaleItems() {
@@ -47,7 +44,8 @@ public class PluginImplTest {
         assertEquals("The returned ListBoxModel size is not as expected", expectedSize, model.size());
 
         // Verify that the first option is "Use Browser Locale"
-        String expectedFirstOption = String.format("Use Browser Locale - %s (%s)",
+        String expectedFirstOption = String.format(
+                "Use Browser Locale - %s (%s)",
                 Locale.getDefault().getDisplayName(), Locale.getDefault().toString());
         assertEquals("The first option should be 'Use Browser Locale'", expectedFirstOption, model.get(0).name);
 
@@ -67,9 +65,8 @@ public class PluginImplTest {
         }
     }
 
-
     @Test
-    public void testSetSystemLocale(){
+    public void testSetSystemLocale() {
         // Test setting systemLocale
         String systemLocale = "en_US";
         plugin.setSystemLocale(systemLocale);
