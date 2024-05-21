@@ -11,10 +11,12 @@ import hudson.util.ListBoxModel;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.List;
 import javax.servlet.ServletException;
 import jenkins.appearance.AppearanceCategory;
 import jenkins.model.GlobalConfiguration;
@@ -36,6 +38,14 @@ public class PluginImpl extends GlobalConfiguration {
     private boolean ignoreAcceptLanguage;
 
     public static final String USE_BROWSER_LOCALE = "USE_BROWSER_LOCALE";
+
+    // Set of allowed locales
+    private static final Set<String> ALLOWED_LOCALES = new HashSet<>(Arrays.asList(
+            "bg", "ca", "cs", "da", "de", "el", "en_GB", "es", "es_AR", "et", "fi",
+            "fr", "he", "hu", "it", "ja", "ko", "lt", "lv", "nb_NO", "nl", "pl",
+            "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv_SE", "tr", "uk",
+            "zh_CN", "zh_TW"
+    ));
 
     /**
      * The value of {@link Locale#getDefault()} before we replace it.
@@ -171,8 +181,8 @@ public class PluginImpl extends GlobalConfiguration {
 
         Locale[] availableLocales = Locale.getAvailableLocales();
         List<Locale> sortedLocales = Arrays.stream(availableLocales)
-                .filter(locale -> locale != null && !locale.toString().isEmpty()) // Ensure no empty or null locale strings
-                .sorted((locale1, locale2) -> locale1.toString().compareTo(locale2.toString()))
+                .filter(locale -> ALLOWED_LOCALES.contains(locale.toString())) // Ensure no empty or null locale strings
+                .sorted((locale1, locale2) -> locale1.getDisplayName().compareTo(locale2.getDisplayName()))
                 .collect(Collectors.toList());
 
         for (Locale locale : sortedLocales) {
