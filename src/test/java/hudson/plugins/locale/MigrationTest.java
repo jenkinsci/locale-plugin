@@ -1,7 +1,9 @@
 package hudson.plugins.locale;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
+import hudson.Plugin;
 import jenkins.model.Jenkins;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,5 +25,15 @@ public class MigrationTest {
         PluginImpl plugin = Jenkins.get().getExtensionList(PluginImpl.class).get(0);
         assertEquals("en-US", plugin.getSystemLocale());
         assertEquals(true, plugin.isIgnoreAcceptLanguage());
+    }
+
+    @LocalData
+    @Test
+    public void dataMigration_UnsetLocale() {
+        PluginImpl plugin = Jenkins.get().getExtensionList(PluginImpl.class).get(0);
+
+        // Assuming the default behavior if systemLocale is unset
+        assertEquals(PluginImpl.USE_BROWSER_LOCALE, plugin.getSystemLocale());
+        assertFalse(plugin.isIgnoreAcceptLanguage());
     }
 }
