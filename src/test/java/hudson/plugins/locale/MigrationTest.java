@@ -3,7 +3,6 @@ package hudson.plugins.locale;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import hudson.Plugin;
 import jenkins.model.Jenkins;
 import org.junit.Rule;
 import org.junit.Test;
