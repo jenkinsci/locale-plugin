@@ -1,7 +1,9 @@
 package hudson.plugins.locale;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Locale;
+import java.util.NoSuchElementException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -32,6 +34,29 @@ public class LocaleFilter implements Filter {
                     public Locale getLocale() {
                         // Force locale to configured default, ignore request' Accept-Language header
                         return Locale.getDefault();
+                    }
+
+                    @Override
+                    public Enumeration<Locale> getLocales() {
+                        // Create a custom Enumeration with only the default locale
+                        return new Enumeration<Locale>() {
+                            private boolean hasMoreElements = true;
+
+                            @Override
+                            public boolean hasMoreElements() {
+                                return hasMoreElements;
+                            }
+
+                            @Override
+                            public Locale nextElement() {
+                                if (hasMoreElements) {
+                                    hasMoreElements = false;
+                                    return getLocale();
+                                } else {
+                                    throw new NoSuchElementException();
+                                }
+                            }
+                        };
                     }
                 };
             }
