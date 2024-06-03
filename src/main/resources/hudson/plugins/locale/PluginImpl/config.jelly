@@ -1,8 +1,8 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-    <f:section title="${%Locale}">
-        <f:entry title="${%Default Language}" field="systemLocale">
-            <f:textbox />
+    <f:section>
+        <f:entry title="${%Default Language}" help="/plugin/locale/help/help-systemLocale.html">
+            <f:select field="systemLocale"/>
         </f:entry>
         <f:entry>
             <f:checkbox field="ignoreAcceptLanguage" title="${%description}" />

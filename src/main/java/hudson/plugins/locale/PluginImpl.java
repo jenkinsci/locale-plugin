@@ -7,10 +7,16 @@ import hudson.Util;
 import hudson.XmlFile;
 import hudson.init.InitMilestone;
 import hudson.init.Initializer;
+import hudson.util.ListBoxModel;
 import hudson.util.PluginServletFilter;
 import hudson.util.XStream2;
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import jenkins.appearance.AppearanceCategory;
 import jenkins.model.GlobalConfiguration;
@@ -30,6 +36,14 @@ public class PluginImpl extends GlobalConfiguration {
 
     private String systemLocale;
     private boolean ignoreAcceptLanguage;
+
+    public static final String USE_BROWSER_LOCALE = "USE_BROWSER_LOCALE";
+
+    // Set of allowed locales
+    private static final Set<String> ALLOWED_LOCALES = new HashSet<>(Arrays.asList(
+            "bg", "ca", "cs", "da", "de", "el", "en_GB", "es", "es_AR", "et", "fi", "fr", "he", "hu", "it", "ja", "ko",
+            "lt", "lv", "nb_NO", "nl", "pl", "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv_SE", "tr", "uk",
+            "zh_CN", "zh_TW"));
 
     /**
      * The value of {@link Locale#getDefault()} before we replace it.
@@ -74,7 +88,9 @@ public class PluginImpl extends GlobalConfiguration {
     @Override
     public void load() {
         super.load();
-        setSystemLocale(systemLocale); // make the loaded value take effect
+        // make the loaded value take effect
+        if (systemLocale == null || systemLocale.isEmpty()) setSystemLocale(USE_BROWSER_LOCALE);
+        else setSystemLocale(systemLocale);
     }
 
     @Override
@@ -94,8 +110,17 @@ public class PluginImpl extends GlobalConfiguration {
 
     public void setSystemLocale(String systemLocale) {
         systemLocale = Util.fixEmptyAndTrim(systemLocale);
-        Locale.setDefault(systemLocale == null ? originalLocale : parse(systemLocale));
-        this.systemLocale = systemLocale;
+        if (USE_BROWSER_LOCALE.equals(systemLocale)) {
+            Locale.setDefault(originalLocale);
+            this.systemLocale = USE_BROWSER_LOCALE;
+        } else {
+            Locale.setDefault((systemLocale == null || systemLocale.isEmpty()) ? originalLocale : parse(systemLocale));
+            this.systemLocale = systemLocale;
+        }
+    }
+
+    public String getUseBrowserLocale() {
+        return USE_BROWSER_LOCALE;
     }
 
     /**
@@ -132,6 +157,36 @@ public class PluginImpl extends GlobalConfiguration {
     @Override
     public GlobalConfigurationCategory getCategory() {
         return GlobalConfigurationCategory.get(AppearanceCategory.class);
+    }
+
+    /**
+     * Retrieves a ListBoxModel containing the available system locales.
+     * This method populates a ListBoxModel with the available system locales,
+     * sorted lexicographically by their string representations. Each locale's
+     * display name and string representation are added as options to the model.
+     *
+     * @return A ListBoxModel containing the available system locales.
+     */
+    public ListBoxModel doFillSystemLocaleItems() {
+        ListBoxModel items = new ListBoxModel();
+
+        // Use originalLocale to display the "Use Browser Locale" option
+        String originalLocaleDisplay = String.format(
+                "Use Browser Locale - %s (%s)", originalLocale.getDisplayName(), originalLocale.toString());
+        items.add(new ListBoxModel.Option(originalLocaleDisplay, USE_BROWSER_LOCALE));
+
+        Locale[] availableLocales = Locale.getAvailableLocales();
+        List<Locale> sortedLocales = Arrays.stream(availableLocales)
+                .filter(locale -> ALLOWED_LOCALES.contains(locale.toString())) // Ensure no empty or null locale strings
+                .sorted((locale1, locale2) -> locale1.getDisplayName().compareTo(locale2.getDisplayName()))
+                .collect(Collectors.toList());
+
+        for (Locale locale : sortedLocales) {
+            String displayText = String.format("%s - %s", locale.getDisplayName(), locale.toString());
+            items.add(new ListBoxModel.Option(displayText, locale.toString()));
+        }
+
+        return items;
     }
 
     private static final XStream XSTREAM = new XStream2();
