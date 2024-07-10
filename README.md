@@ -19,7 +19,7 @@ This plugin allows you to:
 This feature is sometimes convenient for multi-lingual environment.
 
 ### Usage
-Under _Manage Jenkins > Configure System_ there should be a "Locale" section.
+Under _Manage Jenkins > Appearance_ there should be a "Locale" section.
 
 Here you can enter the _Default Language_: this should be a language code
 or locale code like "fr" (for French), or "de_AT" (German, in Austria).
