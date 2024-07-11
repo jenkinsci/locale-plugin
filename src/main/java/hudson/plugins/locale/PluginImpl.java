@@ -41,7 +41,7 @@ public class PluginImpl extends GlobalConfiguration {
 
     // Set of allowed locales
     private static final Set<String> ALLOWED_LOCALES = new HashSet<>(Arrays.asList(
-            "bg", "ca", "cs", "da", "de", "el", "en_GB", "es", "es_AR", "et", "fi", "fr", "he", "hu", "it", "ja", "ko",
+            "bg", "ca", "cs", "da", "de", "el", "en", "es", "es_AR", "et", "fi", "fr", "he", "hu", "it", "ja", "ko",
             "lt", "lv", "nb_NO", "nl", "pl", "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv_SE", "tr", "uk",
             "zh_CN", "zh_TW"));
 
@@ -170,9 +170,9 @@ public class PluginImpl extends GlobalConfiguration {
     public ListBoxModel doFillSystemLocaleItems() {
         ListBoxModel items = new ListBoxModel();
 
-        // Use originalLocale to display the "Use Browser Locale" option
+        // Use originalLocale to display the "Use Default Locale" option
         String originalLocaleDisplay = String.format(
-                "Use Browser Locale - %s (%s)", originalLocale.getDisplayName(), originalLocale.toString());
+                "Use Default Locale - %s (%s)", originalLocale.getDisplayName(), originalLocale.toString());
         items.add(new ListBoxModel.Option(originalLocaleDisplay, USE_BROWSER_LOCALE));
 
         Locale[] availableLocales = Locale.getAvailableLocales();
