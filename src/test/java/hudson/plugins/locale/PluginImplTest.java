@@ -28,7 +28,7 @@ public class PluginImplTest {
 
     // Set of allowed locales for the test
     private static final Set<String> ALLOWED_LOCALES = new HashSet<>(Arrays.asList(
-            "bg", "ca", "cs", "da", "de", "el", "en_GB", "es", "es_AR", "et", "fi", "fr", "he", "hu", "it", "ja", "ko",
+            "bg", "ca", "cs", "da", "de", "el", "en", "es", "es_AR", "et", "fi", "fr", "he", "hu", "it", "ja", "ko",
             "lt", "lv", "nb_NO", "nl", "pl", "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv_SE", "tr", "uk",
             "zh_CN", "zh_TW"));
 
@@ -38,16 +38,16 @@ public class PluginImplTest {
         ListBoxModel model = plugin.doFillSystemLocaleItems();
 
         // Expected size of the ListBoxModel
-        int expectedSize = ALLOWED_LOCALES.size() + 1; // +1 for the "Use Browser Locale" option
+        int expectedSize = ALLOWED_LOCALES.size() + 1; // +1 for the "Use Default Locale" option
 
         // Verify the returned ListBoxModel size
         assertEquals("The returned ListBoxModel size is not as expected", expectedSize, model.size());
 
-        // Verify that the first option is "Use Browser Locale"
+        // Verify that the first option is "Use Default Locale"
         String expectedFirstOption = String.format(
-                "Use Browser Locale - %s (%s)",
+                "Use Default Locale - %s (%s)",
                 Locale.getDefault().getDisplayName(), Locale.getDefault().toString());
-        assertEquals("The first option should be 'Use Browser Locale'", expectedFirstOption, model.get(0).name);
+        assertEquals("The first option should be 'Use Default Locale'", expectedFirstOption, model.get(0).name);
 
         // Verify that the allowed locales are correctly added to the ListBoxModel, excluding the first option
         for (String localeStr : ALLOWED_LOCALES) {
@@ -55,7 +55,7 @@ public class PluginImplTest {
             String expectedOption = String.format("%s - %s", locale.getDisplayName(), locale.toString());
 
             boolean found = false;
-            for (int i = 1; i < model.size(); i++) { // Start from 1 to skip the "Use Browser Locale" option
+            for (int i = 1; i < model.size(); i++) { // Start from 1 to skip the "Use Default Locale" option
                 if (model.get(i).name.equals(expectedOption)) {
                     found = true;
                     break;

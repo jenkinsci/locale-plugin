@@ -34,7 +34,7 @@
   <properties>
     <changelist>999999-SNAPSHOT</changelist>
     <gitHubRepo>jenkinsci/locale-plugin</gitHubRepo>
-    <jenkins.version>2.452.1</jenkins.version>
+    <jenkins.version>2.452.3</jenkins.version>
     <configuration-as-code.version>1810.v9b_c30a_249a_4c</configuration-as-code.version>
     <spotless.check.skip>false</spotless.check.skip>
   </properties>
