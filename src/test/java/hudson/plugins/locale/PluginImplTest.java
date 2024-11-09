@@ -29,8 +29,8 @@ public class PluginImplTest {
     // Set of allowed locales for the test
     private static final Set<String> ALLOWED_LOCALES = new HashSet<>(Arrays.asList(
             "bg", "ca", "cs", "da", "de", "el", "en", "es", "es_AR", "et", "fi", "fr", "he", "hu", "it", "ja", "ko",
-            "lt", "lv", "nb_NO", "nl", "pl", "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv_SE", "tr", "uk",
-            "zh_CN", "zh_TW"));
+            "lt", "lv", "nb_NO", "nl", "pl", "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv", "tr", "uk", "zh_CN",
+            "zh_TW"));
 
     @Test
     public void testDoFillSystemLocaleItems() {
