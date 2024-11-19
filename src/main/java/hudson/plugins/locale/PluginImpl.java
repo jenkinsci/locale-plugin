@@ -25,7 +25,7 @@ import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
 import org.jvnet.localizer.LocaleProvider;
-import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerRequest2;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -94,7 +94,7 @@ public class PluginImpl extends GlobalConfiguration {
     }
 
     @Override
-    public boolean configure(StaplerRequest req, JSONObject jsonObject) throws FormException {
+    public boolean configure(StaplerRequest2 req, JSONObject jsonObject) throws FormException {
         req.bindJSON(this, jsonObject);
         save();
         return false;
