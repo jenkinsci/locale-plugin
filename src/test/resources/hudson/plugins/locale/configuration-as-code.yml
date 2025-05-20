@@ -1,4 +1,20 @@
+jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: admin
+          name: admin
+          password: admin
+          properties:
+            - userLocale:
+                localeCode: de
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
 appearance:
   locale:
     systemLocale: fr
-    ignoreAcceptLanguage: true
+    ignoreAcceptLanguage: false
+    allowUserPreferences: true
+
