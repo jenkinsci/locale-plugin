@@ -13,16 +13,16 @@ import hudson.util.XStream2;
 import jakarta.servlet.ServletException;
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.stream.Collectors;
 import jenkins.appearance.AppearanceCategory;
 import jenkins.model.GlobalConfiguration;
 import jenkins.model.GlobalConfigurationCategory;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.LocaleUtils;
 import org.jenkinsci.Symbol;
 import org.jvnet.localizer.LocaleProvider;
 import org.kohsuke.stapler.StaplerRequest2;
@@ -34,16 +34,23 @@ import org.kohsuke.stapler.StaplerRequest2;
 @Symbol("locale")
 public class PluginImpl extends GlobalConfiguration {
 
+    private static final XStream XSTREAM = new XStream2();
+
+    static {
+        XSTREAM.alias("locale", PluginImpl.class);
+    }
+
     private String systemLocale;
     private boolean ignoreAcceptLanguage;
+    private boolean allowUserPreferences;
 
     public static final String USE_BROWSER_LOCALE = "USE_BROWSER_LOCALE";
 
     // Set of allowed locales
-    private static final Set<String> ALLOWED_LOCALES = new HashSet<>(Arrays.asList(
+    public static final Set<String> ALLOWED_LOCALES = Set.of(
             "bg", "ca", "cs", "da", "de", "el", "en", "es", "es_AR", "et", "fi", "fr", "he", "hu", "it", "ja", "ko",
             "lt", "lv", "nb_NO", "nl", "pl", "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv", "tr", "uk", "zh_CN",
-            "zh_TW"));
+            "zh_TW");
 
     /**
      * The value of {@link Locale#getDefault()} before we replace it.
@@ -71,7 +78,7 @@ public class PluginImpl extends GlobalConfiguration {
     private void start() throws ServletException {
         load();
         LocaleProvider.setProvider(new LocaleProvider() {
-            LocaleProvider original = LocaleProvider.getProvider();
+            final LocaleProvider original = LocaleProvider.getProvider();
 
             @Override
             public Locale get() {
@@ -89,12 +96,15 @@ public class PluginImpl extends GlobalConfiguration {
     public void load() {
         super.load();
         // make the loaded value take effect
-        if (systemLocale == null || systemLocale.isEmpty()) setSystemLocale(USE_BROWSER_LOCALE);
-        else setSystemLocale(systemLocale);
+        if (systemLocale == null || systemLocale.isEmpty()) {
+            setSystemLocale(USE_BROWSER_LOCALE);
+        } else {
+            setSystemLocale(systemLocale);
+        }
     }
 
     @Override
-    public boolean configure(StaplerRequest2 req, JSONObject jsonObject) throws FormException {
+    public boolean configure(StaplerRequest2 req, JSONObject jsonObject) {
         req.bindJSON(this, jsonObject);
         save();
         return false;
@@ -102,6 +112,10 @@ public class PluginImpl extends GlobalConfiguration {
 
     public boolean isIgnoreAcceptLanguage() {
         return ignoreAcceptLanguage;
+    }
+
+    public boolean isAllowUserPreferences() {
+        return allowUserPreferences;
     }
 
     public String getSystemLocale() {
@@ -119,18 +133,23 @@ public class PluginImpl extends GlobalConfiguration {
         }
     }
 
-    public String getUseBrowserLocale() {
-        return USE_BROWSER_LOCALE;
-    }
-
     /**
      * Sets whether the plugin should take user preferences into account.
      * @param ignoreAcceptLanguage If {@code true},
-     *      Ignore browser preference and force this language to all users
+     *      ignore browser preference and force this language to all users
      * @since 1.3
      */
     public void setIgnoreAcceptLanguage(boolean ignoreAcceptLanguage) {
         this.ignoreAcceptLanguage = ignoreAcceptLanguage;
+    }
+
+    /**
+     * Sets whether the plugin should take user preferences into account.
+     * @param allowUserPreferences If {@code true},
+     *      ignore browser preference and use the language a user configured
+     */
+    public void setAllowUserPreferences(boolean allowUserPreferences) {
+        this.allowUserPreferences = allowUserPreferences;
     }
 
     /**
@@ -140,17 +159,8 @@ public class PluginImpl extends GlobalConfiguration {
      * @return the Locale object
      */
     public static Locale parse(String s) {
-        String[] tokens = s.trim().split("_");
-        switch (tokens.length) {
-            case 1:
-                return new Locale(tokens[0]);
-            case 2:
-                return new Locale(tokens[0], tokens[1]);
-            case 3:
-                return new Locale(tokens[0], tokens[1], tokens[2]);
-            default:
-                throw new IllegalArgumentException(s + " is not a valid locale");
-        }
+        // TODO: Migrate to Locale.of() once we upgrade to Java 21
+        return LocaleUtils.toLocale(s.trim());
     }
 
     @NonNull
@@ -171,27 +181,21 @@ public class PluginImpl extends GlobalConfiguration {
         ListBoxModel items = new ListBoxModel();
 
         // Use originalLocale to display the "Use Default Locale" option
-        String originalLocaleDisplay = String.format(
-                "Use Default Locale - %s (%s)", originalLocale.getDisplayName(), originalLocale.toString());
+        String originalLocaleDisplay =
+                String.format("Use Default Locale - %s (%s)", originalLocale.getDisplayName(), originalLocale);
         items.add(new ListBoxModel.Option(originalLocaleDisplay, USE_BROWSER_LOCALE));
 
         Locale[] availableLocales = Locale.getAvailableLocales();
         List<Locale> sortedLocales = Arrays.stream(availableLocales)
                 .filter(locale -> ALLOWED_LOCALES.contains(locale.toString())) // Ensure no empty or null locale strings
-                .sorted((locale1, locale2) -> locale1.getDisplayName().compareTo(locale2.getDisplayName()))
-                .collect(Collectors.toList());
+                .sorted(Comparator.comparing(Locale::getDisplayName))
+                .toList();
 
         for (Locale locale : sortedLocales) {
-            String displayText = String.format("%s - %s", locale.getDisplayName(), locale.toString());
+            String displayText = String.format("%s - %s", locale.getDisplayName(), locale);
             items.add(new ListBoxModel.Option(displayText, locale.toString()));
         }
 
         return items;
-    }
-
-    private static final XStream XSTREAM = new XStream2();
-
-    static {
-        XSTREAM.alias("locale", PluginImpl.class);
     }
 }
