@@ -24,6 +24,7 @@ import org.jvnet.localizer.LocaleProvider;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest2;
+import org.kohsuke.stapler.interceptor.RequirePOST;
 
 public class UserLocaleProperty extends UserProperty {
     private static final Logger LOGGER = Logger.getLogger(UserLocaleProperty.class.getName());
@@ -92,6 +93,7 @@ public class UserLocaleProperty extends UserProperty {
          *
          * @return A ListBoxModel containing the available user locales.
          */
+        @RequirePOST
         public ListBoxModel doFillLocaleCodeItems() {
             ListBoxModel items = new ListBoxModel();
             Locale originalLocale = LocaleProvider.getLocale();

@@ -26,6 +26,7 @@ import org.apache.commons.lang3.LocaleUtils;
 import org.jenkinsci.Symbol;
 import org.jvnet.localizer.LocaleProvider;
 import org.kohsuke.stapler.StaplerRequest2;
+import org.kohsuke.stapler.interceptor.RequirePOST;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -177,6 +178,7 @@ public class PluginImpl extends GlobalConfiguration {
      *
      * @return A ListBoxModel containing the available system locales.
      */
+    @RequirePOST
     public ListBoxModel doFillSystemLocaleItems() {
         ListBoxModel items = new ListBoxModel();
 
