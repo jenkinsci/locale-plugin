@@ -137,4 +137,28 @@ class UserLocaleTest {
             assertTrue(found, "The ListBoxModel does not contain the expected locale: " + locale);
         }
     }
+
+    @Test
+    void testRoundTrip() throws Throwable {
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        MockAuthorizationStrategy authorizationStrategy = new MockAuthorizationStrategy();
+        authorizationStrategy.grant(Jenkins.READ).onRoot().toEveryone();
+        authorizationStrategy.grant(Item.READ).everywhere().to("bob");
+        j.jenkins.setAuthorizationStrategy(authorizationStrategy);
+
+        PluginImpl plugin = PluginImpl.get();
+        plugin.setAllowUserPreferences(true);
+
+        // test locale code is saved and loaded correctly
+        User userBob = User.get("bob", true, Map.of());
+        UserLocaleProperty userLocaleProperty = userBob.getProperty(UserLocaleProperty.class);
+        userLocaleProperty.setLocaleCode("de");
+        userBob.save();
+
+        j.restart();
+
+        userBob = User.get("bob", false, Map.of());
+        userLocaleProperty = userBob.getProperty(UserLocaleProperty.class);
+        assertEquals("de", userLocaleProperty.getLocaleCode());
+    }
 }

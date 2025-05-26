@@ -71,7 +71,7 @@ public class UserLocaleProperty extends UserProperty {
 
         @Override
         public UserProperty newInstance(StaplerRequest2 req, @NonNull JSONObject formData) {
-            return new UserLocaleProperty(formData.optString("locale"));
+            return new UserLocaleProperty(formData.optString("localeCode"));
         }
 
         @Override
