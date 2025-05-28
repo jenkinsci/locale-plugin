@@ -2,7 +2,6 @@ package hudson.plugins.locale.user;
 
 import static hudson.plugins.locale.PluginImpl.ALLOWED_LOCALES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import hudson.model.Item;
@@ -17,10 +16,11 @@ import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.MockAuthorizationStrategy;
 import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
+import org.jvnet.hudson.test.recipes.LocalData;
 import org.jvnet.localizer.LocaleProvider;
 
 @WithJenkins
-class UserLocaleTest {
+class UserLocalePropertyTest {
 
     private JenkinsRule j;
 
@@ -80,7 +80,7 @@ class UserLocaleTest {
 
         try (JenkinsRule.WebClient wc = j.createWebClient().login("bob")) {
             String language = wc.goTo("", "text/html").getWebResponse().getResponseHeaderValue("X-Jenkins-Language");
-            assertNull(language);
+            assertEquals("doesnotexist", language);
         }
     }
 
@@ -96,9 +96,13 @@ class UserLocaleTest {
         plugin.setAllowUserPreferences(true);
 
         // test for no locale code
+        User userBob = User.get("bob", true, Map.of());
+        UserLocaleProperty userLocaleProperty = userBob.getProperty(UserLocaleProperty.class);
+        userLocaleProperty.setLocaleCode("");
+
         try (JenkinsRule.WebClient wc = j.createWebClient().login("bob")) {
             String language = wc.goTo("", "text/html").getWebResponse().getResponseHeaderValue("X-Jenkins-Language");
-            assertNull(language);
+            assertEquals("", language);
         }
     }
 
@@ -160,5 +164,29 @@ class UserLocaleTest {
         userBob = User.get("bob", false, Map.of());
         userLocaleProperty = userBob.getProperty(UserLocaleProperty.class);
         assertEquals("de", userLocaleProperty.getLocaleCode());
+    }
+
+    @Test
+    @LocalData
+    void testUnsetUserLocaleProperty() {
+        User user = User.get("test", false, Map.of());
+        UserLocaleProperty userLocaleProperty = user.getProperty(UserLocaleProperty.class);
+        assertEquals(LocaleProvider.getLocale().toString(), userLocaleProperty.getLocaleCode());
+    }
+
+    @Test
+    @LocalData
+    void testEmptyUserLocaleProperty() {
+        User user = User.get("test", false, Map.of());
+        UserLocaleProperty userLocaleProperty = user.getProperty(UserLocaleProperty.class);
+        assertEquals(LocaleProvider.getLocale().toString(), userLocaleProperty.getLocaleCode());
+    }
+
+    @Test
+    @LocalData
+    void testUserLocaleProperty() {
+        User user = User.get("test", false, Map.of());
+        UserLocaleProperty userLocaleProperty = user.getProperty(UserLocaleProperty.class);
+        assertEquals("fr", userLocaleProperty.getLocaleCode());
     }
 }

@@ -3,6 +3,7 @@ package hudson.plugins.locale;
 import static hudson.plugins.locale.PluginImpl.ALLOWED_LOCALES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import hudson.util.ListBoxModel;
@@ -11,7 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.WithoutJenkins;
 import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
 @WithJenkins
@@ -95,5 +98,17 @@ class PluginImplTest {
         PluginImpl plugin = PluginImpl.get();
         plugin.setAllowUserPreferences(allowUserPreferences);
         assertEquals(allowUserPreferences, plugin.isAllowUserPreferences());
+    }
+
+    @Test
+    @WithoutJenkins
+    @Issue("https://github.com/jenkinsci/locale-plugin/pull/309#issuecomment-2912228288")
+    void parseLocaleString() {
+        assertEquals(new Locale(""), PluginImpl.parse(""));
+        assertEquals(new Locale("en"), PluginImpl.parse("en"));
+        assertEquals(new Locale("en", "US"), PluginImpl.parse("en_US"));
+        assertEquals(new Locale("en-US"), PluginImpl.parse("en-US"));
+        assertEquals(new Locale("Locale.ENGLISH"), PluginImpl.parse("Locale.ENGLISH"));
+        assertThrows(IllegalArgumentException.class, () -> PluginImpl.parse("string_with_more_than_3_underscores"));
     }
 }
