@@ -22,7 +22,6 @@ import jenkins.model.GlobalConfiguration;
 import jenkins.model.GlobalConfigurationCategory;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang3.LocaleUtils;
 import org.jenkinsci.Symbol;
 import org.jvnet.localizer.LocaleProvider;
 import org.kohsuke.stapler.StaplerRequest2;
@@ -161,7 +160,13 @@ public class PluginImpl extends GlobalConfiguration {
      */
     public static Locale parse(String s) {
         // TODO: Migrate to Locale.of() once we upgrade to Java 21
-        return LocaleUtils.toLocale(s.trim());
+        String[] tokens = s.trim().split("_");
+        return switch (tokens.length) {
+            case 1 -> new Locale(tokens[0]);
+            case 2 -> new Locale(tokens[0], tokens[1]);
+            case 3 -> new Locale(tokens[0], tokens[1], tokens[2]);
+            default -> throw new IllegalArgumentException(s + " is not a valid locale");
+        };
     }
 
     @NonNull
