@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import jenkins.model.Jenkins;
 import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
@@ -17,21 +16,24 @@ import org.jvnet.hudson.test.recipes.LocalData;
 @WithJenkins
 class MigrationTest {
 
-    @LocalData
     @Test
+    @LocalData
     void dataMigration_13(JenkinsRule j) {
-        PluginImpl plugin = Jenkins.get().getExtensionList(PluginImpl.class).get(0);
+        PluginImpl plugin = PluginImpl.get();
+
         assertEquals("en-US", plugin.getSystemLocale());
         assertTrue(plugin.isIgnoreAcceptLanguage());
+        assertFalse(plugin.isAllowUserPreferences());
     }
 
-    @LocalData
     @Test
+    @LocalData
     void dataMigration_UnsetLocale(JenkinsRule j) {
-        PluginImpl plugin = Jenkins.get().getExtensionList(PluginImpl.class).get(0);
+        PluginImpl plugin = PluginImpl.get();
 
         // Assuming the default behavior if systemLocale is unset
         assertEquals(PluginImpl.USE_BROWSER_LOCALE, plugin.getSystemLocale());
-        assertFalse(plugin.isIgnoreAcceptLanguage());
+        assertTrue(plugin.isIgnoreAcceptLanguage());
+        assertFalse(plugin.isAllowUserPreferences());
     }
 }

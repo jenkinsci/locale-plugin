@@ -1,38 +1,36 @@
 package hudson.plugins.locale;
 
+import static hudson.plugins.locale.PluginImpl.ALLOWED_LOCALES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import hudson.util.ListBoxModel;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
-import jenkins.model.Jenkins;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.WithoutJenkins;
 import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
 @WithJenkins
 class PluginImplTest {
 
-    private PluginImpl plugin;
+    private JenkinsRule j;
 
     @BeforeEach
-    void setUp(JenkinsRule j) {
-        plugin = Jenkins.get().getExtensionList(PluginImpl.class).get(0);
+    void setUp(JenkinsRule rule) {
+        j = rule;
     }
-
-    // Set of allowed locales for the test
-    private static final Set<String> ALLOWED_LOCALES = new HashSet<>(Arrays.asList(
-            "bg", "ca", "cs", "da", "de", "el", "en", "es", "es_AR", "et", "fi", "fr", "he", "hu", "it", "ja", "ko",
-            "lt", "lv", "nb_NO", "nl", "pl", "pt_BR", "pt_PT", "ro", "ru", "sk", "sl", "sr", "sv", "tr", "uk", "zh_CN",
-            "zh_TW"));
 
     @Test
     void testDoFillSystemLocaleItems() {
+        PluginImpl plugin = PluginImpl.get();
+
         // Invoke the method
         ListBoxModel model = plugin.doFillSystemLocaleItems();
 
@@ -66,31 +64,51 @@ class PluginImplTest {
 
     @Test
     void testSetSystemLocale() {
-        // Test setting systemLocale
+        PluginImpl plugin = PluginImpl.get();
         String systemLocale = "en_US";
         plugin.setSystemLocale(systemLocale);
         assertEquals(systemLocale, plugin.getSystemLocale());
     }
 
     @Test
-    void testSetIgnoreAcceptLanguage() {
-        // Test setting ignoreAcceptLanguage
-        boolean ignoreAcceptLanguage = true;
-        plugin.setIgnoreAcceptLanguage(ignoreAcceptLanguage);
-        assertEquals(ignoreAcceptLanguage, plugin.isIgnoreAcceptLanguage());
+    void testEmptySystemLocale() {
+        PluginImpl plugin = PluginImpl.get();
+        plugin.setSystemLocale("");
+        assertNull(plugin.getSystemLocale(), "System locale should be empty");
     }
 
     @Test
     void testNullSystemLocale() {
-        // Test setting systemLocale to null
+        PluginImpl plugin = PluginImpl.get();
         plugin.setSystemLocale(null);
         assertNull(plugin.getSystemLocale(), "System locale should be null");
     }
 
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void testSetIgnoreAcceptLanguage(boolean ignoreAcceptLanguage) {
+        PluginImpl plugin = PluginImpl.get();
+        plugin.setIgnoreAcceptLanguage(ignoreAcceptLanguage);
+        assertEquals(ignoreAcceptLanguage, plugin.isIgnoreAcceptLanguage());
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void testSetAllowUserPreferences(boolean allowUserPreferences) {
+        PluginImpl plugin = PluginImpl.get();
+        plugin.setAllowUserPreferences(allowUserPreferences);
+        assertEquals(allowUserPreferences, plugin.isAllowUserPreferences());
+    }
+
     @Test
-    void testEmptySystemLocale() {
-        // Test setting systemLocale to empty string
-        plugin.setSystemLocale("");
-        assertNull(plugin.getSystemLocale(), "System locale should be empty");
+    @WithoutJenkins
+    @Issue("https://github.com/jenkinsci/locale-plugin/pull/309#issuecomment-2912228288")
+    void parseLocaleString() {
+        assertEquals(new Locale(""), PluginImpl.parse(""));
+        assertEquals(new Locale("en"), PluginImpl.parse("en"));
+        assertEquals(new Locale("en", "US"), PluginImpl.parse("en_US"));
+        assertEquals(new Locale("en-US"), PluginImpl.parse("en-US"));
+        assertEquals(new Locale("Locale.ENGLISH"), PluginImpl.parse("Locale.ENGLISH"));
+        assertThrows(IllegalArgumentException.class, () -> PluginImpl.parse("string_with_more_than_3_underscores"));
     }
 }
