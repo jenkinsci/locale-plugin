@@ -1,6 +1,6 @@
 # Locale Plugin for Jenkins
 
-[![Build Status](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/badge/icon)](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/)
+[![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Plugins%2Flocale-plugin%2Fmain)](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/)
 [![Coverage](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/badge/icon?status=${instructionCoverage}&subject=coverage&color=${colorInstructionCoverage})](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main)
 [![LOC](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main/badge/icon?job=test&status=${lineOfCode}&subject=line%20of%20code&color=blue)](https://ci.jenkins.io/job/Plugins/job/locale-plugin/job/main)
 [![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/locale.svg)](https://plugins.jenkins.io/locale)
